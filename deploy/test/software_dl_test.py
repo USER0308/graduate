@@ -21,10 +21,22 @@ class SoftwareDownloadTest(unittest.TestCase):
         # 所有测试运行前执行一次
         pass
 
-    def test_a_run(self):
+    def test_curl_install_run(self):
         pass
 
-    def test_b_run(self):
+    def test_pip_install_run(self):
+        pass
+
+    def test_docker_install_run(self):
+        pass
+
+    def test_docker_compose_install_run(self):
+        pass
+
+    def test_image_download_run(self):
+        pass
+
+    def test_binary_download_run(self):
         pass
 
 if __name__ == '__main__':
