@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="{% static "css/style.css" %}" />
+    </head>
+
+    <body>
+        <div id="app">
+
+            <fieldset>
+                <legend>
+                    deploying a new blockchain
+                </legend>
+
+                    {% csrf_token %}
+                	<div class="form-group">
+                    	<label>Host IP:</label>
+                    	<ul class="ipAddress">
+                    		<li v-for="(index,item) in ipAddress">
+						        <input type="text" @input="checkIpVal(index,item)" v-model:value="item.value" ref="ipInput" @keyup="turnIpPOS(item,index,$event)" @blur="setDefaultVal(item)"/>
+						        <div></div>
+						    </li>
+                    	</ul>
+                	</div>
+	                <div class="form-group">
+	                    <label>Username:</label>
+	                    <input type="text" v-model="newHost.user"/>
+	                </div>
+	                <div class="form-group">
+	                    <label>Password:</label>
+						<input type="password" v-model="newHost.password"><a @click="testConnection()" href="javascript:void(0);">test connection</a>
+	                </div>
+<!-- 	                <div class="form-group">
+	                    <label></label>
+	                    <button @click="createHost">test</button>
+	                </div> -->
+
+                	<div class="form-group">
+	                    <label>Orderer number:</label>
+	                    <input type="number" min=0 v-model="newBlockchain.ordererNum"/>
+	                </div>
+	                <div class="form-group">
+	                    <label>Organization number:</label>
+	                    <input type="number" min=0 v-model="newBlockchain.organizationNum"/>
+	                </div>
+	                <div class="form-group">
+	                    <label>Peer number:</label>
+	                    <input type="number" min=0 v-model="newBlockchain.peerNum"/>
+	                </div>
+	                <div class="form-group">
+	                    <label>CA number:</label>
+	                    <input type="number" min=0 v-model="newBlockchain.caNum"/>
+	                </div>
+	                <div class="form-group">
+	                    <label>Couchdb number:</label>
+	                    <input type="number" min=0 v-model="newBlockchain.couchdbNum"/>
+	                </div>
+{#	                <div class="form-group">#}
+{#	                	<label>Chaincode file:</label>#}
+{#	                	<input type="file" name="chaincode">#}
+{#	                </div>#}
+	                <div class="form-group">
+	                    <label></label>
+	                    <button @click="deploy()">deploy</button>
+	                </div>
+
+        </fieldset>
+        <div>
+        	<h3>deployment progress</h3>
+        	<br>
+        	<br>
+        	<div class="progress">
+        		<p>installing software depandency</p>
+	        	<p>[>curl...</p>
+	        	<p>[>pip...</p>
+	        	<p>[>git...</p>
+	        	<p>[>docker...</p>
+	        	<p>[>docker-compose...</p>
+	        	<br>
+	        	<br>
+        	</div>
+        	<div class="progress">
+        		<p>pulling blockchain image</p>
+	        	<p>orderer...</p>
+	        	<p>peer...</p>
+	        	<p>ca...</p>
+	        	<p>couchdb...</p>
+	        	<p>tools...</p>
+	        	<p>zookeeper...</p>
+	        	<p>kafka...</p>
+	        	<br>
+	        	<br>
+        	</div>
+			<div class="progress">
+				<p>generating configure files</p>
+	        	<p>crypto-config.yaml...</p>
+	        	<p>configtx.yaml...</p>
+				<p>docker-compose.yaml...</p>
+				<br>
+				<br>
+			</div>
+        	<div class="progress">
+        		<p>generate crypto material</p>
+	        	<p>genesis.block...</p>
+	        	<p>channel.tx...</p>
+				<p>OrgMSPanchors.tx...</p>
+				<br>
+				<br>
+        	</div>
+        	<div class="progress">
+        		<p>bring up the network</p>
+	        	<p>docker-compose.yaml up...</p>
+	        	<br>
+	        	<br>
+        	</div>
+        	<div class="progress">
+        		<p>creating the channel</p>
+	        	<p>peer channel create...</p>
+	        	<br>
+	        	<br>
+        	</div>
+        	<div class="progress">
+        		<p>joining into channel</p>
+	        	<p>peer channel join...</p>
+	        	<br>
+	        	<br>
+        	</div>
+        	<div class="progress">
+        		<p>installing chaincode</p>
+	        	<p>peer chaincode install...</p>
+	        	<br>
+	        	<br>
+        	</div>
+        	<div class="progress">
+        		<p>instantiating chaincode</p>
+	        	<p>peer chaincode instantiate...</p>
+	        	<br>
+	        	<br>
+        	</div>
+        	
+        </div>
+    </body>
+    <script src="{% static "js/vue.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/core.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/sha256.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+            	ipAddress: [{value: '192'}, {value: '168'}, {value: '99'}, {value: '100'}],
+                newHost: {
+                    ip: '',
+                    user: 'worker',
+                    password: 'worker'
+                },
+                newBlockchain: {
+                	ordererNum: 1,
+                	organizationNum: 2,
+                	peerNum: 2,
+                	caNum: 0,
+                	couchdbNum: 0
+                }
+            },
+            methods:{
+                isIpValid: function(){
+                	var size = this.ipAddress.length
+                	for (var i = 0; i < size-1; i++) {
+                		var val = this.ipAddress[i].value
+                		val = val.trim();
+				    	val = parseInt(val, 10);
+                		if(isNaN(val)){
+                			this.newHost.ip = '';
+                			return false
+                		}else if(val<0||val>255){
+                			this.newHost.ip = '';
+                			return false
+                		}
+                		this.newHost.ip += ( val+ '.')
+                	}
+                	this.newHost.ip += this.ipAddress[size-1].value;
+                	return true
+                },
+                checkIpVal: function(index, item) {
+                	// for (var i = 0; i < this.ipAddress.length ; i++) {
+                	// 	console.log(this.ipAddress[i].value)
+                	// }
+                	// console.log(item.value)
+                	// console.log(index)
+				    //var self = this;
+				    //确保每个值都处于0-255
+				    var val = item.value;
+				    //当输入的是空格时，值赋为空
+				    val = val.trim();
+				    val = parseInt(val, 10);
+				    if(isNaN(val)) {
+				        val = ''
+				    } else {
+				        val = val < 0 ? 0 : val;
+				        val = val > 255 ? 255 : val;
+				    }
+				    this.ipAddress[index].value = val;
+				},
+				turnIpPOS: function(index, event) {
+				    var self = this;
+				    var e = event || window.event;
+				    //左箭头向左跳转，左一不做任何措施
+				    if(e.keyCode === 37) {
+				        if(index === 0) {} else {
+				            self.$refs.ipInput[index - 1].focus();
+				        }
+				    }
+				    //删除键把当前数据删除完毕后会跳转到前一个input，左一不做任何处理
+				    if(e.keyCode === 8) {
+				        var val = item.value;
+				        if(index === 0) {} else {
+				            self.$refs.ipInput[index - 1].focus();
+				        }
+				    }
+				    //右箭头、回车键、空格键、冒号均向右跳转，右一不做任何措施
+				    if(e.keyCode === 39 || e.keyCode === 13 || e.keyCode === 32 || e.keyCode === 190) {
+				        if(index === 3) {} else {
+				            self.$refs.ipInput[index + 1].focus();
+				        }
+				    }
+				},
+				setDefaultVal: function(item) {
+				    //当input失去焦点，而ip没有赋值时，会自动赋值为0
+				    var self = this;
+				    var val = item.value;
+				    if(val === '') {
+				        item.value = '0';
+				    }
+				},
+                testConnection: function(){
+                    if(!this.isIpValid()){
+                		return
+                	}
+                	var username = this.newHost.user.trim();
+                	var password = this.newHost.password.trim();
+                	if( username === '' || password === ''){
+                		this.newHost.ip = '';
+                		return
+                	}
+                	// send to backend...
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "test_connection/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf,
+                            "ip": self.newHost.ip,
+                            "user": self.newHost.user,
+                            "password": self.newHost.password
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                    // 添加完newHost对象后，重置newHost对象
+                    //this.newHost = {ip: '', user: '', password: ''};
+                    //this.ipAddress = [{value: ''}, {value: ''}, {value: ''}, {value: ''}]
+                },
+                deploy: function () {
+                    var self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                            type: "post",
+                            url: ".",
+                            dataType: "json",
+                            data: {
+                                "csrfmiddlewaretoken": csrf,
+                                "ordererNum": self.newBlockchain.ordererNum,
+                                "organizationNum": self.newBlockchain.organizationNum,
+                                "peerNum": self.newBlockchain.peerNum,
+                                "caNum": self.newBlockchain.caNum,
+                                "couchdbNum": self.newBlockchain.couchdbNum
+                            },
+                            success: function (data) {
+                                alert(data.msg)
+                            },
+                            error: function (data) {
+                                alert("error")
+                            }
+                    });
+                }
+            }
+        })
+
+    </script>
+
+</html>

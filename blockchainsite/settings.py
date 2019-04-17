@@ -54,7 +54,7 @@ ROOT_URLCONF = 'blockchainsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'static')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,3 +118,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    # 指出要引用的资源所在目录名字.(这个就是实际目录名,和引用指针名无关)
+    os.path.join(BASE_DIR, 'static'),
+)

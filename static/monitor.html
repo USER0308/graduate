@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="{% static "css/style.css" %}" />
+    </head>
+
+    <body>
+        <div id="app">
+            <div class="hostlist">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ip</th>
+                            <th>user</th>
+                            <th>password</th>
+                            <th>Delete</th>
+                            <th>Monitor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="host in hosts">
+                            {% verbatim %}
+                            <td>{{ host.ip }}</td>
+                            <td>{{ host.user }}</td>
+                            <td>{{ host.password }}</td>
+                            {% endverbatim %}
+                            <td :class="'text-center'"><button @click="deleteHost($index)">Delete</button></td>
+                            <td :class="'text-center'"><button @click="monitor($index)">Monitor</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <canvas id="canvas" width="1500px" height="800px" style="border: 1px solid red;"> 您的浏览器不支持canvas标签</canvas>
+        </div>
+    </body>
+    <script src="{% static "js/vue.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/core.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/sha256.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/canvas.js" %}"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                hosts: [{
+                    ip: '102.168.1.1',
+                    user: 'root',
+                    password: 'toor'
+                }, {
+                    ip: '102.168.1.2',
+                    user: 'root',
+                    password: 'toor'
+                }, {
+                    ip: '102.168.1.3',
+                    user: 'root',
+                    password: 'toor'
+                }, {
+                    ip: '102.168.1.4',
+                    user: 'root',
+                    password: 'toor'
+                }],
+                newBlockchain: {
+                	ordererNum: 1,
+                	organizationNum: 2,
+                	peerNum: 2,
+                	caNum: 0,
+                	couchdbNum: 0
+                }
+            },
+            methods:{
+                deleteHost: function (index) {
+                    // body...
+                },
+                monitor: function (index) {
+
+                }
+            }
+        })
+    </script>
+
+</html>

@@ -1,33 +1,51 @@
+#! encoding=utf-8
 from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import HttpResponse
-from deploy.utils import build_network, software_dl, template
+from django.shortcuts import HttpResponse,render_to_response
+import paramiko
+import json
 
 def deploy(request):
-    orderer_num = 0
-    org_num = 2
-    peer_num = 2
-    ca_num = 1
     if request.method == 'GET':
-        return HttpResponse("getting deployment args")
+        return render(request, 'deploy.html')
     elif request.method == 'POST':
-        orderer_num = request.POST.get('orderer_num') , 0
-        org_num = request.POST.get('org_num'), 2
-        peer_num = request.POST.get('peer_num'), 2
-        ca_num = request.POST.get('ca_num'), 1
-        couchdb_num = request.POST.get('couchdb_num'), 1
+        orderer_num = request.POST.get('ordererNum')
+        org_num = request.POST.get('organizationNum')
+        peer_num = request.POST.get('peerNum')
+        ca_num = request.POST.get('caNum')
+        couchdb_num = request.POST.get('couchdbNum')
+        print(orderer_num)
+        print(org_num)
+        print(peer_num)
+        print(ca_num)
+        print(couchdb_num)
+        response = {'code': '200', 'msg': 'deploy ok'}
+        return HttpResponse(json.dumps(response))
 
-        software_dl.install_all()
-        software_dl.download_img('x86-64-1.0.0')
-        software_dl.download_ca('x86-64-1.0.0')
-        software_dl.download_binary()
+def index(request):
+    return render_to_response('index.html')
 
-        template.configtx_gen(orderer_num=orderer_num, org_num=org_num, peer_num=peer_num, ca_num=ca_num, couchdb_num=couchdb_num)
-        template.crypto_config_gen(orderer_num=orderer_num, org_num=org_num, peer_num=peer_num)
-        template.docker_compose_gen(orderer_num=orderer_num, org_num=org_num, peer_num=peer_num, ca_num=ca_num, couchdb_num=couchdb_num)
+def test_connection(request):
+    if request.method == 'POST':
+        hostname = request.POST.get('ip')
+        user = request.POST.get('user')
+        password = request.POST.get('password')
+        print(hostname)
+        print(user)
+        print(password)
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        try:
+            ssh.connect(hostname=hostname, port=22, username=user, password=password, allow_agent=False,look_for_keys=False, timeout=5)
+        except Exception as e:
+            print(e)
+            response = {'code': '500', 'msg': 'timeout'}
+            ssh.close()
+            return HttpResponse(json.dumps(response))
 
-        build_network.generate()
-        build_network.network_up()
+        # 验证是否成功登录
 
-        return HttpResponse("deploying finished")
+        response = {'code': '200', 'msg': 'OK'}
+        ssh.close()
+        return HttpResponse(json.dumps(response))
