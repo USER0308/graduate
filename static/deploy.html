@@ -1,148 +1,616 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <link rel="stylesheet" href="{% static "css/style.css" %}" />
-    </head>
-
-    <body>
-        <div id="app">
-
-            <fieldset>
-                <legend>
-                    deploying a new blockchain
-                </legend>
-
-                    {% csrf_token %}
-                	<div class="form-group">
-                    	<label>Host IP:</label>
-                    	<ul class="ipAddress">
-                    		<li v-for="(index,item) in ipAddress">
-						        <input type="text" @input="checkIpVal(index,item)" v-model:value="item.value" ref="ipInput" @keyup="turnIpPOS(item,index,$event)" @blur="setDefaultVal(item)"/>
-						        <div></div>
-						    </li>
-                    	</ul>
-                	</div>
-	                <div class="form-group">
-	                    <label>Username:</label>
-	                    <input type="text" v-model="newHost.user"/>
-	                </div>
-	                <div class="form-group">
-	                    <label>Password:</label>
-						<input type="password" v-model="newHost.password"><a @click="testConnection()" href="javascript:void(0);">test connection</a>
-	                </div>
-<!-- 	                <div class="form-group">
-	                    <label></label>
-	                    <button @click="createHost">test</button>
-	                </div> -->
-
-                	<div class="form-group">
-	                    <label>Orderer number:</label>
-	                    <input type="number" min=0 v-model="newBlockchain.ordererNum"/>
-	                </div>
-	                <div class="form-group">
-	                    <label>Organization number:</label>
-	                    <input type="number" min=0 v-model="newBlockchain.organizationNum"/>
-	                </div>
-	                <div class="form-group">
-	                    <label>Peer number:</label>
-	                    <input type="number" min=0 v-model="newBlockchain.peerNum"/>
-	                </div>
-	                <div class="form-group">
-	                    <label>CA number:</label>
-	                    <input type="number" min=0 v-model="newBlockchain.caNum"/>
-	                </div>
-	                <div class="form-group">
-	                    <label>Couchdb number:</label>
-	                    <input type="number" min=0 v-model="newBlockchain.couchdbNum"/>
-	                </div>
+{#{% load static %}#}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{##}
+{#    <head>#}
+{#        <meta charset="UTF-8">#}
+{#        <title></title>#}
+{#        <link rel="stylesheet" href="{% static "css/style.css" %}" />#}
+{#    </head>#}
+{##}
+{#    <body>#}
+{#        <div id="app">#}
+{##}
+{#            <fieldset>#}
+{#                <legend>#}
+{#                    deploying a new blockchain#}
+{#                </legend>#}
+{##}
+{#                    {% csrf_token %}#}
+{#                	<div class="form-group">#}
+{#                    	<label>主机 IP:</label>#}
+{#                    	<ul class="ipAddress">#}
+{#                    		<li v-for="(index,item) in ipAddress">#}
+{#						        <input type="text" @input="checkIpVal(index,item)" v-model:value="item.value" ref="ipInput" @keyup="turnIpPOS(item,index,$event)" @blur="setDefaultVal(item)"/>#}
+{#						        <div></div>#}
+{#						    </li>#}
+{#                    	</ul>#}
+{#                	</div>#}
+{#	                <div class="form-group">#}
+{#	                    <label>用户名:</label>#}
+{#	                    <input type="text" v-model="newHost.user"/>#}
+{#	                </div>#}
+{#	                <div class="form-group">#}
+{#	                    <label>密码:</label>#}
+{#						<input type="password" v-model="newHost.password">#}
+{#	                </div>#}
+{#                    <div class="testConnectionLink">#}
+{#                        <a @click="testConnection()" href="javascript:void(0);" id="connectionLink">test connection</a>#}
+{#                    </div>#}
+{##}
+{#<!-- 	                <div class="form-group">#}
+{#	                    <label></label>#}
+{#	                    <button @click="createHost">test</button>#}
+{#	                </div> -->#}
+{##}
+{#                	<div class="form-group">#}
+{#	                    <label>排序节点数:</label>#}
+{#	                    <input type="number" min=0 v-model="newBlockchain.ordererNum"/>#}
+{#	                </div>#}
+{#	                <div class="form-group">#}
+{#	                    <label>组织数:</label>#}
+{#	                    <input type="number" min=0 v-model="newBlockchain.organizationNum"/>#}
+{#	                </div>#}
+{#	                <div class="form-group">#}
+{#	                    <label>节点数:</label>#}
+{#	                    <input type="number" min=0 v-model="newBlockchain.peerNum"/>#}
+{#	                </div>#}
+{#	                <div class="form-group">#}
+{#	                    <label>CA 数:</label>#}
+{#	                    <input type="number" min=0 v-model="newBlockchain.caNum"/>#}
+{#	                </div>#}
+{#	                <div class="form-group">#}
+{#	                    <label>Couchdb 数:</label>#}
+{#	                    <input type="number" min=0 v-model="newBlockchain.couchdbNum"/>#}
+{#	                </div>#}
 {#	                <div class="form-group">#}
 {#	                	<label>Chaincode file:</label>#}
 {#	                	<input type="file" name="chaincode">#}
 {#	                </div>#}
-	                <div class="form-group">
-	                    <label></label>
-	                    <button @click="deploy()">deploy</button>
-	                </div>
+{#	                <div class="form-group">#}
+{#	                    <label></label>#}
+{#	                    <button @click="deploy()">deploy</button>#}
+{#	                </div>#}
+{##}
+{#        </fieldset>#}
+{#        <div>#}
+{#        	<h3>deployment progress</h3>#}
+{#        	<br>#}
+{#        	<br>#}
+{#        	<div class="progress">#}
+{#        		<p>installing software depandency</p>#}
+{#	        	<p>[>curl...</p>#}
+{#	        	<p>[>pip...</p>#}
+{#	        	<p>[>git...</p>#}
+{#	        	<p>[>docker...</p>#}
+{#	        	<p>[>docker-compose...</p>#}
+{#	        	<br>#}
+{#	        	<br>#}
+{#        	</div>#}
+{#        	<div class="progress">#}
+{#        		<p>pulling blockchain image</p>#}
+{#	        	<p>orderer...</p>#}
+{#	        	<p>peer...</p>#}
+{#	        	<p>ca...</p>#}
+{#	        	<p>couchdb...</p>#}
+{#	        	<p>tools...</p>#}
+{#	        	<p>zookeeper...</p>#}
+{#	        	<p>kafka...</p>#}
+{#	        	<br>#}
+{#	        	<br>#}
+{#        	</div>#}
+{#			<div class="progress">#}
+{#				<p>generating configure files</p>#}
+{#	        	<p>crypto-config.yaml...</p>#}
+{#	        	<p>configtx.yaml...</p>#}
+{#				<p>docker-compose.yaml...</p>#}
+{#				<br>#}
+{#				<br>#}
+{#			</div>#}
+{#        	<div class="progress">#}
+{#        		<p>generate crypto material</p>#}
+{#	        	<p>genesis.block...</p>#}
+{#	        	<p>channel.tx...</p>#}
+{#				<p>OrgMSPanchors.tx...</p>#}
+{#				<br>#}
+{#				<br>#}
+{#        	</div>#}
+{#        	<div class="progress">#}
+{#        		<p>bring up the network</p>#}
+{#	        	<p>docker-compose.yaml up...</p>#}
+{#	        	<br>#}
+{#	        	<br>#}
+{#        	</div>#}
+{#        	<div class="progress">#}
+{#        		<p>creating the channel</p>#}
+{#	        	<p>peer channel create...</p>#}
+{#	        	<br>#}
+{#	        	<br>#}
+{#        	</div>#}
+{#        	<div class="progress">#}
+{#        		<p>joining into channel</p>#}
+{#	        	<p>peer channel join...</p>#}
+{#	        	<br>#}
+{#	        	<br>#}
+{#        	</div>#}
+{#        	<div class="progress">#}
+{#        		<p>installing chaincode</p>#}
+{#	        	<p>peer chaincode install...</p>#}
+{#	        	<br>#}
+{#	        	<br>#}
+{#        	</div>#}
+{#        	<div class="progress">#}
+{#        		<p>instantiating chaincode</p>#}
+{#	        	<p>peer chaincode instantiate...</p>#}
+{#	        	<br>#}
+{#	        	<br>#}
+{#        	</div>#}
+{#        	#}
+{#        </div>#}
+{#    </body>#}
+{#    <script src="{% static "js/vue.js" %}"></script>#}
+{#    <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/core.js" %}"></script>#}
+{#    <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/sha256.js" %}"></script>#}
+{#    <script type="text/javascript" src="{% static "js/jquery-3.3.1.min.js" %}"></script>#}
+{#    <script>#}
+{#        var vm = new Vue({#}
+{#            el: '#app',#}
+{#            data: {#}
+{#            	ipAddress: [{value: '192'}, {value: '168'}, {value: '99'}, {value: '100'}],#}
+{#                newHost: {#}
+{#                    ip: '',#}
+{#                    user: 'worker',#}
+{#                    password: 'worker'#}
+{#                },#}
+{#                newBlockchain: {#}
+{#                	ordererNum: 1,#}
+{#                	organizationNum: 2,#}
+{#                	peerNum: 2,#}
+{#                	caNum: 0,#}
+{#                	couchdbNum: 0#}
+{#                }#}
+{#            },#}
+{#            methods:{#}
+{#                isIpValid: function(){#}
+{#                	var size = this.ipAddress.length#}
+{#                	for (var i = 0; i < size-1; i++) {#}
+{#                		var val = this.ipAddress[i].value#}
+{#                		val = val.trim();#}
+{#				    	val = parseInt(val, 10);#}
+{#                		if(isNaN(val)){#}
+{#                			this.newHost.ip = '';#}
+{#                			return false#}
+{#                		}else if(val<0||val>255){#}
+{#                			this.newHost.ip = '';#}
+{#                			return false#}
+{#                		}#}
+{#                		this.newHost.ip += ( val+ '.')#}
+{#                	}#}
+{#                	this.newHost.ip += this.ipAddress[size-1].value;#}
+{#                	return true#}
+{#                },#}
+{#                checkIpVal: function(index, item) {#}
+{#                	// for (var i = 0; i < this.ipAddress.length ; i++) {#}
+{#                	// 	console.log(this.ipAddress[i].value)#}
+{#                	// }#}
+{#                	// console.log(item.value)#}
+{#                	// console.log(index)#}
+{#				    //var self = this;#}
+{#				    //确保每个值都处于0-255#}
+{#				    var val = item.value;#}
+{#				    //当输入的是空格时，值赋为空#}
+{#				    val = val.trim();#}
+{#				    val = parseInt(val, 10);#}
+{#				    if(isNaN(val)) {#}
+{#				        val = ''#}
+{#				    } else {#}
+{#				        val = val < 0 ? 0 : val;#}
+{#				        val = val > 255 ? 255 : val;#}
+{#				    }#}
+{#				    this.ipAddress[index].value = val;#}
+{#				},#}
+{#				turnIpPOS: function(index, event) {#}
+{#				    var self = this;#}
+{#				    var e = event || window.event;#}
+{#				    //左箭头向左跳转，左一不做任何措施#}
+{#				    if(e.keyCode === 37) {#}
+{#				        if(index === 0) {} else {#}
+{#				            self.$refs.ipInput[index - 1].focus();#}
+{#				        }#}
+{#				    }#}
+{#				    //删除键把当前数据删除完毕后会跳转到前一个input，左一不做任何处理#}
+{#				    if(e.keyCode === 8) {#}
+{#				        var val = item.value;#}
+{#				        if(index === 0) {} else {#}
+{#				            self.$refs.ipInput[index - 1].focus();#}
+{#				        }#}
+{#				    }#}
+{#				    //右箭头、回车键、空格键、冒号均向右跳转，右一不做任何措施#}
+{#				    if(e.keyCode === 39 || e.keyCode === 13 || e.keyCode === 32 || e.keyCode === 190) {#}
+{#				        if(index === 3) {} else {#}
+{#				            self.$refs.ipInput[index + 1].focus();#}
+{#				        }#}
+{#				    }#}
+{#				},#}
+{#				setDefaultVal: function(item) {#}
+{#				    //当input失去焦点，而ip没有赋值时，会自动赋值为0#}
+{#				    var self = this;#}
+{#				    var val = item.value;#}
+{#				    if(val === '') {#}
+{#				        item.value = '0';#}
+{#				    }#}
+{#				},#}
+{#                testConnection: function(){#}
+{#                    if(!this.isIpValid()){#}
+{#                		return#}
+{#                	}#}
+{#                	var username = this.newHost.user.trim();#}
+{#                	var password = this.newHost.password.trim();#}
+{#                	if( username === '' || password === ''){#}
+{#                		this.newHost.ip = '';#}
+{#                		return#}
+{#                	}#}
+{#                	// send to backend...#}
+{#                    var  self = this;#}
+{#                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();#}
+{#                    $.ajax({#}
+{#                        async: false,#}
+{#                        type: "post",#}
+{#                        url: "test_connection/",#}
+{#                        dataType: "json",#}
+{#                        data: {#}
+{#                            "csrfmiddlewaretoken": csrf,#}
+{#                            "ip": self.newHost.ip,#}
+{#                            "user": self.newHost.user,#}
+{#                            "password": self.newHost.password#}
+{#                        },#}
+{#                        success: function (data) {#}
+{#                            alert(data.msg)#}
+{#                        },#}
+{#                        error: function (data) {#}
+{#                            alert("error")#}
+{#                        }#}
+{#                    });#}
+{#                    // 添加完newHost对象后，重置newHost对象#}
+{#                    //this.newHost = {ip: '', user: '', password: ''};#}
+{#                    //this.ipAddress = [{value: ''}, {value: ''}, {value: ''}, {value: ''}]#}
+{#                },#}
+{#                deploy: function () {#}
+{#                    var self = this;#}
+{#                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();#}
+{#                    $.ajax({#}
+{#                        async: false,#}
+{#                            type: "post",#}
+{#                            url: ".",#}
+{#                            dataType: "json",#}
+{#                            data: {#}
+{#                                "csrfmiddlewaretoken": csrf,#}
+{#                                "ordererNum": self.newBlockchain.ordererNum,#}
+{#                                "organizationNum": self.newBlockchain.organizationNum,#}
+{#                                "peerNum": self.newBlockchain.peerNum,#}
+{#                                "caNum": self.newBlockchain.caNum,#}
+{#                                "couchdbNum": self.newBlockchain.couchdbNum#}
+{#                            },#}
+{#                            success: function (data) {#}
+{#                                alert(data.msg)#}
+{#                            },#}
+{#                            error: function (data) {#}
+{#                                alert("error")#}
+{#                            }#}
+{#                    });#}
+{#                }#}
+{#            }#}
+{#        })#}
+{##}
+{#    </script>#}
+{##}
+{#</html>#}
 
-        </fieldset>
-        <div>
-        	<h3>deployment progress</h3>
-        	<br>
-        	<br>
-        	<div class="progress">
-        		<p>installing software depandency</p>
-	        	<p>[>curl...</p>
-	        	<p>[>pip...</p>
-	        	<p>[>git...</p>
-	        	<p>[>docker...</p>
-	        	<p>[>docker-compose...</p>
-	        	<br>
-	        	<br>
-        	</div>
-        	<div class="progress">
-        		<p>pulling blockchain image</p>
-	        	<p>orderer...</p>
-	        	<p>peer...</p>
-	        	<p>ca...</p>
-	        	<p>couchdb...</p>
-	        	<p>tools...</p>
-	        	<p>zookeeper...</p>
-	        	<p>kafka...</p>
-	        	<br>
-	        	<br>
-        	</div>
-			<div class="progress">
-				<p>generating configure files</p>
-	        	<p>crypto-config.yaml...</p>
-	        	<p>configtx.yaml...</p>
-				<p>docker-compose.yaml...</p>
-				<br>
-				<br>
-			</div>
-        	<div class="progress">
-        		<p>generate crypto material</p>
-	        	<p>genesis.block...</p>
-	        	<p>channel.tx...</p>
-				<p>OrgMSPanchors.tx...</p>
-				<br>
-				<br>
-        	</div>
-        	<div class="progress">
-        		<p>bring up the network</p>
-	        	<p>docker-compose.yaml up...</p>
-	        	<br>
-	        	<br>
-        	</div>
-        	<div class="progress">
-        		<p>creating the channel</p>
-	        	<p>peer channel create...</p>
-	        	<br>
-	        	<br>
-        	</div>
-        	<div class="progress">
-        		<p>joining into channel</p>
-	        	<p>peer channel join...</p>
-	        	<br>
-	        	<br>
-        	</div>
-        	<div class="progress">
-        		<p>installing chaincode</p>
-	        	<p>peer chaincode install...</p>
-	        	<br>
-	        	<br>
-        	</div>
-        	<div class="progress">
-        		<p>instantiating chaincode</p>
-	        	<p>peer chaincode instantiate...</p>
-	        	<br>
-	        	<br>
-        	</div>
-        	
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Favicons
+    ================================================== -->
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+
+    <!-- LOAD CSS FILES -->
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- color scheme -->
+
+    <link rel="stylesheet" href="{% static 'css/ystep.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'switcher/demo.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'switcher/colors/blue.css' %}" type="text/css" id="colors">
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- Preload images start //-->
+        <div class="images-preloader" id="images-preloader">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
         </div>
+        <!-- Preload images end //-->
+        <div id="wrapper">
+            <!-- header begin -->
+            <header class="site-header-1 site-header">
+                <!-- Main bar start -->
+                <div id="sticked-menu" class="main-bar">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <!-- logo begin -->
+                                <div id="logo" class="pull-left">
+                                    <a href="index.html">
+                                        <img src="{% static 'images/logo.png' %}" alt="" class="logo">
+                                    </a>
+                                </div>
+                                <!-- logo close -->
+
+                                <!-- desktop menu begin -->
+                                <nav id="desktop-menu" class="site-desktop-menu hidden-xs hidden-sm">
+                                    <ul class="clearfix">
+                                        <li class="active"><a href="">首页</a>
+                                        </li>
+                                        <li><a href="#">特色</a>
+                                        </li>
+                                        <li><a href="#">源码</a>
+                                        </li>
+                                        <li><a href="#">更新日志</a>
+                                        </li>
+                                        <li><a href="#">联系我们</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- desktop menu close -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- header close -->
+            <div class="gray-line"></div>
+
+
+                    <div>
+                        <fieldset>
+                            <legend>
+                                deploying a new blockchain
+                            </legend>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>主机 IP:</label>
+                                <ul class="ipAddress">
+                                    <li v-for="(index,item) in ipAddress">
+                                        <input type="text" @input="checkIpVal(index,item)" v-model:value="item.value" ref="ipInput" @keyup="turnIpPOS(item,index,$event)" @blur="setDefaultVal(item)"/>
+                                        <div></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form-group">
+                                <label>用户名:</label>
+                                <input type="text" v-model="newHost.user"/>
+                            </div>
+                            <div class="form-group">
+                                <label>密码:</label>
+                                <input type="password" v-model="newHost.password">
+                            </div>
+                            <div class="testConnectionLink">
+                                <a @click="testConnection()" href="javascript:void(0);" id="connectionLink">test connection</a>
+                            </div>
+
+                            <div class="form-group">
+                                <label>排序节点数:</label>
+                                <input type="number" min=0 v-model="newBlockchain.ordererNum"/>
+                            </div>
+                            <div class="form-group">
+                                <label>组织数:</label>
+                                <input type="number" min=0 v-model="newBlockchain.organizationNum"/>
+                            </div>
+                            <div class="form-group">
+                                <label>节点数:</label>
+                                <input type="number" min=0 v-model="newBlockchain.peerNum"/>
+                            </div>
+                            <div class="form-group">
+                                <label>CA 数:</label>
+                                <input type="number" min=0 v-model="newBlockchain.caNum"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Couchdb 数:</label>
+                                <input type="number" min=0 v-model="newBlockchain.couchdbNum"/>
+                            </div>
+                            <div class="form-group">
+                                <label></label>
+                                <button @click="deploy()">deploy</button>
+                            </div>
+                    </fieldset>
+
+                        <!-- progress -->
+
+                        <div class="stepCont stepCont2">
+                        <!-- <div class="ystep"></div> -->
+                        <div class='ystep-container ystep-lg ystep-blue'></div>
+                        <div class="pageCont">
+                            <div id="page1" class="stepPage">
+                                <h1>page1</h1>
+                            </div>
+                            <div id="page2" class="stepPage">
+                                <h1>page2</h1>
+                            </div>
+                            <div id="page3" class="stepPage">
+                                <h1>page3</h1>
+                            </div>
+                            <div id="page4" class="stepPage">
+                                <h1>page4</h1>
+                            </div>
+                            <div id="page5" class="stepPage">
+                                <h1>page5</h1>
+                            </div>
+                        </div>
+                    </div>
+
+{#                        <div>#}
+{#                            <h3>deployment progress</h3>#}
+{#                            <br>#}
+{#                            <br>#}
+{#                            <div class="progress">#}
+{#                                <p>installing software depandency</p>#}
+{#                                <p>[>curl...</p>#}
+{#                                <p>[>pip...</p>#}
+{#                                <p>[>git...</p>#}
+{#                                <p>[>docker...</p>#}
+{#                                <p>[>docker-compose...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>pulling blockchain image</p>#}
+{#                                <p>orderer...</p>#}
+{#                                <p>peer...</p>#}
+{#                                <p>ca...</p>#}
+{#                                <p>couchdb...</p>#}
+{#                                <p>tools...</p>#}
+{#                                <p>zookeeper...</p>#}
+{#                                <p>kafka...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>generating configure files</p>#}
+{#                                <p>crypto-config.yaml...</p>#}
+{#                                <p>configtx.yaml...</p>#}
+{#                                <p>docker-compose.yaml...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>generate crypto material</p>#}
+{#                                <p>genesis.block...</p>#}
+{#                                <p>channel.tx...</p>#}
+{#                                <p>OrgMSPanchors.tx...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>bring up the network</p>#}
+{#                                <p>docker-compose.yaml up...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>creating the channel</p>#}
+{#                                <p>peer channel create...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>joining into channel</p>#}
+{#                                <p>peer channel join...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>installing chaincode</p>#}
+{#                                <p>peer chaincode install...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>instantiating chaincode</p>#}
+{#                                <p>peer chaincode instantiate...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{##}
+{#                        </div>#}
+                    </div>
+
+            <div class="clearfix"></div>
+
+
+            <!-- footer begin -->
+            <footer class="footer-1 bg-color-1">
+
+                <!-- main footer begin -->
+                <div class="main-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="compact-widget">
+                                    <div class="widget-inner">
+                                        <img class="logo-footer" src="{% static 'images/logo-footer.png' %}" alt="compact company">
+                                        <p>基于Fabric的区块链部署及监控平台是一个可以满足用户对区块链网络的自定义需求,将区块链网络部署到其服务器上,并能方便地查询区块链上数据</p>
+                                        <div class="social-icons clearfix">
+                                            <a href="#" class="facebook tipped" data-title="facebook"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-facebook"></i></a>
+                                            <a href="#" class="twitter tipped" data-title="twitter"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-twitter"></i></a>
+                                            <a href="#" class="google tipped" data-title="google +"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-google-plus"></i></a>
+                                            <a href="#" class="youtube tipped" data-title="youtube"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-youtube-play"></i></a>
+                                            <a href="#" class="linkedin tipped" data-title="linkedin"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-linkedin"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="compact-widget">
+                                    <h3 class="widget-title">联系方式</h3>
+                                    <div class="widget-inner">
+                                        <p>地址: 爱国路敬业大厦105号</p>
+                                        <p>电话: +(86) 0971 1230</p>
+                                        <p>传真: +(172) 205 2043</p>
+                                        <p>邮箱: contact@bcplatform.com</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- main footer close -->
+
+                <!-- sub footer begin -->
+                <div class="sub-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                Copyright &copy; 2019.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- sub footer close -->
+
+            </footer>
+            <!-- footer close -->
+        </div>
+
+
+        <!-- LOAD JS FILES -->
+{#        <script src="{% static 'js/jquery.min1.js' %}"></script>#}
+        <script src="{% static 'js/setStep.js' %}"></script>
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+        <script src="{% static 'js/easing.js' %}"></script>
+        <script src="{% static 'js/owl.carousel.js' %}"></script>
+        <script src="{% static 'js/jquery.fitvids.js' %}"></script>
+        <script src="{% static 'js/wow.min.js' %}"></script>
+        <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    </div>
+
     </body>
     <script src="{% static "js/vue.js" %}"></script>
     <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/core.js" %}"></script>
@@ -164,7 +632,8 @@
                 	peerNum: 2,
                 	caNum: 0,
                 	couchdbNum: 0
-                }
+                },
+                step: null
             },
             methods:{
                 isIpValid: function(){
@@ -288,16 +757,189 @@
                                 "couchdbNum": self.newBlockchain.couchdbNum
                             },
                             success: function (data) {
-                                alert(data.msg)
+{#                                alert(data.msg)#}
+                                console.log("deploy success")
+                                self.install_software()
                             },
                             error: function (data) {
-                                alert("error")
+{#                                alert("error")#}
+                                console.log("deploy failed")
+                                self.install_software()
                             }
                     });
+                },
+                install_software: function() {
+                    var step2 = new SetStep({
+                        content:'.stepCont2',
+                        clickAble:false
+                    });
+                    var self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                            type: "post",
+                            url: "pull_image/",
+                            dataType: "json",
+                            data: {
+                                "csrfmiddlewaretoken": csrf,
+                                "step": "pullImage"
+                            },
+                            success: function (data) {
+{#                                alert(data.msg)#}
+                                self.pull_image(step2)
+                            },
+                            error: function (data) {
+{#                                alert("error")#}
+                            }
+                    });
+                },
+                pull_image: function (step2) {
+                    step2.nextProgress()
+                    var self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                            type: "post",
+                            url: "config/",
+                            dataType: "json",
+                            data: {
+                                "csrfmiddlewaretoken": csrf,
+                                "step": "config"
+                            },
+                            success: function (data) {
+{#                                alert(data.msg)#}
+                                self.config(step2)
+                            },
+                            error: function (data) {
+{#                                alert("error")#}
+                            }
+                    });
+                },
+                config: function (step2) {
+                    step2.nextProgress()
+                    var self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                            type: "post",
+                            url: "yaml_up/",
+                            dataType: "json",
+                            data: {
+                                "csrfmiddlewaretoken": csrf,
+                                "step": "yaml"
+                            },
+                            success: function (data) {
+{#                                alert(data.msg)#}
+                                self.yaml_up(step2)
+                            },
+                            error: function (data) {
+{#                                alert("error")#}
+                            }
+                    });
+                },
+                yaml_up: function (step2) {
+                    step2.nextProgress()
+                    var self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                            type: "post",
+                            url: "create_channel/",
+                            dataType: "json",
+                            data: {
+                                "csrfmiddlewaretoken": csrf,
+                                "step": "createChannel"
+                            },
+                            success: function (data) {
+{#                                alert(data.msg)#}
+                                self.create_channel(step2)
+                            },
+                            error: function (data) {
+{#                                alert("error")#}
+                            }
+                    });
+                },
+                create_channel: function (step2) {
+                    step2.nextProgress()
+                    var self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                            type: "post",
+                            url: "join_channel/",
+                            dataType: "json",
+                            data: {
+                                "csrfmiddlewaretoken": csrf,
+                                "step": "joinChannel"
+                            },
+                            success: function (data) {
+{#                                alert(data.msg)#}
+                                self.join_channel(step2)
+                            },
+                            error: function (data) {
+{#                                alert("error")#}
+                            }
+                    });
+                },
+                join_channel: function (step2) {
+                    step2.nextProgress()
+                    var self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                            type: "post",
+                            url: "install_chaincode/",
+                            dataType: "json",
+                            data: {
+                                "csrfmiddlewaretoken": csrf,
+                                "step": "installChaincode"
+                            },
+                            success: function (data) {
+{#                                alert(data.msg)#}
+                                self.install_chaincode(step2)
+                            },
+                            error: function (data) {
+{#                                alert("error")#}
+                            }
+                    });
+                },
+                install_chaincode: function (step2) {
+                    step2.nextProgress()
+                    var self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                            type: "post",
+                            url: "instantiate_chaincode/",
+                            dataType: "json",
+                            data: {
+                                "csrfmiddlewaretoken": csrf,
+                                "step": "instantiateChaincode"
+                            },
+                            success: function (data) {
+{#                                alert(data.msg)#}
+                                self.instantiate_chaincode(step2)
+                            },
+                            error: function (data) {
+{#                                alert("error")#}
+                            }
+                    });
+                },
+                instantiate_chaincode: function (step2) {
+                    step2.nextProgress()
+{#                     _that.opt.animating=true;#}
+        //        _that.opt.curStep++;
+        //        _that.setProgress(_that.stepContainer,_that.opt.curStep,_that.opt.stepCounts)
                 }
             }
         })
 
     </script>
-
+{#    <script>#}
+{#        var step2=new SetStep({#}
+{#            content:'.stepCont2',#}
+{#            clickAble:false#}
+{#        });#}
+{##}
+{#    </script>#}
 </html>

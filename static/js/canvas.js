@@ -1,6 +1,6 @@
-let canvas = document.getElementById('canvas')
-let	ctx = canvas.getContext('2d')
-let center = {x: canvas.width/2, y: canvas.height/2}
+var canvas = document.getElementById('canvas')
+var	ctx = canvas.getContext('2d')
+var center = {x: canvas.width/2, y: canvas.height/2}
 var circle = {
 	x : center.x,    //圆心的x轴坐标值
     y : center.y,    //圆心的y轴坐标值

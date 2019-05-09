@@ -1,6 +1,6 @@
 #! encoding=utf-8
 from django.shortcuts import render
-
+from .client import networking
 # Create your views here.
 from django.shortcuts import HttpResponse,render_to_response
 import paramiko
@@ -15,12 +15,15 @@ def deploy(request):
         peer_num = request.POST.get('peerNum')
         ca_num = request.POST.get('caNum')
         couchdb_num = request.POST.get('couchdbNum')
-        print(orderer_num)
-        print(org_num)
-        print(peer_num)
-        print(ca_num)
-        print(couchdb_num)
-        response = {'code': '200', 'msg': 'deploy ok'}
+        # print(orderer_num)
+        # print(org_num)
+        # print(peer_num)
+        # print(ca_num)
+        # print(couchdb_num)
+        #try except
+        #networking('metadata'+'/'+orderer_num+'/'+org_num+'/'+peer_num+'/'+ca_num+'/'+couchdb_num)
+        #networking('installSoftware')
+        response = {'code': '200', 'msg': 'ok'}
         return HttpResponse(json.dumps(response))
 
 def index(request):
@@ -49,3 +52,43 @@ def test_connection(request):
         response = {'code': '200', 'msg': 'OK'}
         ssh.close()
         return HttpResponse(json.dumps(response))
+
+def install_software(request):
+    #networking('')
+    response = {'code': '200', 'msg': 'ok'}
+    return HttpResponse(json.dumps(response))
+
+def pull_image(request):
+    # networking('')
+    response = {'code': '200', 'msg': 'ok'}
+    return HttpResponse(json.dumps(response))
+
+def config(request):
+    # networking('')
+    response = {'code': '200', 'msg': 'ok'}
+    return HttpResponse(json.dumps(response))
+
+def yaml_up(request):
+    # networking('')
+    response = {'code': '200', 'msg': 'ok'}
+    return HttpResponse(json.dumps(response))
+
+def create_channel(request):
+    # networking('')
+    response = {'code': '200', 'msg': 'ok'}
+    return HttpResponse(json.dumps(response))
+
+def join_channel(request):
+    # networking('')
+    response = {'code': '200', 'msg': 'ok'}
+    return HttpResponse(json.dumps(response))
+
+def install_chaincode(request):
+    # networking('')
+    response = {'code': '200', 'msg': 'ok'}
+    return HttpResponse(json.dumps(response))
+
+def instantiate_chaincode(request):
+    # networking()
+    response = {'code': '200', 'msg': 'ok'}
+    return HttpResponse(json.dumps(response))

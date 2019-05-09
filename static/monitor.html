@@ -34,12 +34,13 @@
                     </tbody>
                 </table>
             </div>
-            <canvas id="canvas" width="1500px" height="800px" style="border: 1px solid red;"> 您的浏览器不支持canvas标签</canvas>
+
         </div>
     </body>
     <script src="{% static "js/vue.js" %}"></script>
     <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/core.js" %}"></script>
     <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/sha256.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery-3.3.1.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/canvas.js" %}"></script>
     <script>
         var vm = new Vue({
@@ -68,14 +69,178 @@
                 	peerNum: 2,
                 	caNum: 0,
                 	couchdbNum: 0
-                }
+                },
+                blockHash: '',
+                blockTxid: '',
+                txid: ''
             },
             methods:{
                 deleteHost: function (index) {
                     // body...
                 },
                 monitor: function (index) {
-
+                    self.location.href = 'info/'
+                },
+                queryInstalledChaincode: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "queryInstalledChaincode/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+                queryInstantiatedChaincode: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "queryInstantiatedChaincode/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+                queryChannel: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "queryChannel/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+                getChannelConfig: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "getChannelConfig/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+                getInfo: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "getInfo/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+                queryTransactionByTxid: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "queryTransactionByTxid/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf,
+                            "txid": self.txid
+                        },
+                        success: function (data) {
+                            console.log(data.msg)
+                            alert('ok')
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                    self.txid = ''
+                },
+                queryBlockByTxid: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "queryBlockByTxid/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf,
+                            "txid": self.blockTxid
+                        },
+                        success: function (data) {
+                            console.log(data.msg)
+                            alert('ok')
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                    self.blockTxid = ''
+                },
+                queryBlockByHash: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "queryBlockByHash/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf,
+                            "hash": self.blockHash
+                        },
+                        success: function (data) {
+                            console.log(data.msg)
+                            alert('ok')
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                    self.blockHash = ''
                 }
             }
         })
