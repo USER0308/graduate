@@ -5,64 +5,186 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <link rel="stylesheet" href="{% static "css/style.css" %}" />
+            <!-- Favicons
+    ================================================== -->
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+
+    <!-- LOAD CSS FILES -->
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}" />
+
+    <!-- color scheme -->
+
+    <link rel="stylesheet" href="{% static 'css/ystep.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'switcher/demo.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'switcher/colors/blue.css' %}" type="text/css" id="colors">
     </head>
 
     <body>
         <div id="app">
+            <!-- Preload images start //-->
+            <div class="images-preloader" id="images-preloader">
+                <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </div>
+            <!-- Preload images end //-->
+            <div id="wrapper">
+                <!-- header begin -->
+                <header class="site-header-1 site-header">
+                    <!-- Main bar start -->
+                    <div id="sticked-menu" class="main-bar">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <!-- logo begin -->
+                                    <div id="logo" class="pull-left">
+                                        <a href="index.html">
+                                            <img src="{% static 'images/logo.png' %}" alt="" class="logo">
+                                        </a>
+                                    </div>
+                                    <!-- logo close -->
+
+                                    <!-- desktop menu begin -->
+                                    <nav id="desktop-menu" class="site-desktop-menu hidden-xs hidden-sm">
+                                        <ul class="clearfix">
+                                            <li class="active"><a href="">首页</a>
+                                            </li>
+                                            <li><a href="#">特色</a>
+                                            </li>
+                                            <li><a href="#">源码</a>
+                                            </li>
+                                            <li><a href="#">更新日志</a>
+                                            </li>
+                                            <li><a href="#">联系我们</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <!-- desktop menu close -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <!-- header close -->
+                <div class="gray-line"></div>
+            </div>
             <div class="hostlist">
                 <table>
                     <thead>
                         <tr>
-                            <th>ip</th>
-                            <th>user</th>
-                            <th>password</th>
-                            <th>Delete</th>
-                            <th>Monitor</th>
+                            <th>主机ip</th>
+                            <th>登录用户</th>
+                            <th>登录密码</th>
+                            <th>删除记录</th>
+                            <th>查看</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% csrf_token %}
                         <tr v-for="host in hosts">
                             {% verbatim %}
-                            <td>{{ host.ip }}</td>
+                            <td>{{ host.hostname }}</td>
                             <td>{{ host.user }}</td>
                             <td>{{ host.password }}</td>
                             {% endverbatim %}
-                            <td :class="'text-center'"><button @click="deleteHost($index)">Delete</button></td>
-                            <td :class="'text-center'"><button @click="monitor($index)">Monitor</button></td>
+                            <td :class="'text-center'"><button @click="deleteHost($index)">删除</button></td>
+                            <td :class="'text-center'"><button @click="monitor($index)">查看</button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
         </div>
+
+        <div class="clearfix"></div>
+            <!-- footer begin -->
+            <footer class="footer-1 bg-color-1">
+
+                <!-- main footer begin -->
+                <div class="main-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="compact-widget">
+                                    <div class="widget-inner">
+                                        <img class="logo-footer" src="{% static 'images/logo-footer.png' %}" alt="compact company">
+                                        <p>基于Fabric的区块链部署及监控平台是一个可以满足用户对区块链网络的自定义需求,将区块链网络部署到其服务器上,并能方便地查询区块链上数据</p>
+                                        <div class="social-icons clearfix">
+                                            <a href="#" class="facebook tipped" data-title="facebook"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-facebook"></i></a>
+                                            <a href="#" class="twitter tipped" data-title="twitter"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-twitter"></i></a>
+                                            <a href="#" class="google tipped" data-title="google +"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-google-plus"></i></a>
+                                            <a href="#" class="youtube tipped" data-title="youtube"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-youtube-play"></i></a>
+                                            <a href="#" class="linkedin tipped" data-title="linkedin"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-linkedin"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="compact-widget">
+                                    <h3 class="widget-title">联系方式</h3>
+                                    <div class="widget-inner">
+                                        <p>地址: 爱国路敬业大厦105号</p>
+                                        <p>电话: +(86) 0971 1230</p>
+                                        <p>传真: +(172) 205 2043</p>
+                                        <p>邮箱: contact@bcplatform.com</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- main footer close -->
+
+                <!-- sub footer begin -->
+                <div class="sub-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                Copyright &copy; 2019.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- sub footer close -->
+
+            </footer>
+            <!-- footer close -->
+
+
     </body>
     <script src="{% static "js/vue.js" %}"></script>
     <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/core.js" %}"></script>
     <script type="text/javascript" src="{% static "js/crypto-js-3.1.9-1/sha256.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery-3.3.1.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/canvas.js" %}"></script>
     <script>
         var vm = new Vue({
             el: '#app',
             data: {
-                hosts: [{
-                    ip: '102.168.1.1',
-                    user: 'root',
-                    password: 'toor'
-                }, {
-                    ip: '102.168.1.2',
-                    user: 'root',
-                    password: 'toor'
-                }, {
-                    ip: '102.168.1.3',
-                    user: 'root',
-                    password: 'toor'
-                }, {
-                    ip: '102.168.1.4',
-                    user: 'root',
-                    password: 'toor'
-                }],
+{#                hosts: [{#}
+{#                    ip: '102.168.1.1',#}
+{#                    user: 'root',#}
+{#                    password: 'toor'#}
+{#                }, {#}
+{#                    ip: '102.168.1.2',#}
+{#                    user: 'root',#}
+{#                    password: 'toor'#}
+{#                }, {#}
+{#                    ip: '102.168.1.3',#}
+{#                    user: 'root',#}
+{#                    password: 'toor'#}
+{#                }, {#}
+{#                    ip: '102.168.1.4',#}
+{#                    user: 'root',#}
+{#                    password: 'toor'#}
+{#                }],#}
+                hosts: '',
                 newBlockchain: {
                 	ordererNum: 1,
                 	organizationNum: 2,
@@ -73,6 +195,28 @@
                 blockHash: '',
                 blockTxid: '',
                 txid: ''
+            },
+            created: function(){
+                console.log('mounted')
+                var self = this
+                var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                $.ajax({
+                    async: false,
+                        type: "post",
+                        url: "getHostInfo/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+        {#                                alert(data.msg)#}
+                            console.log(data.total_host)
+                            self.hosts = data.total_host
+                        },
+                        error: function (data) {
+        {#                                alert("error")#}
+                        }
+                });
             },
             methods:{
                 deleteHost: function (index) {
@@ -245,5 +389,6 @@
             }
         })
     </script>
+
 
 </html>

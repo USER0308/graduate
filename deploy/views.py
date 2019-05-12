@@ -5,6 +5,7 @@ from .client import networking
 from django.shortcuts import HttpResponse,render_to_response
 import paramiko
 import json
+import os.path
 
 def deploy(request):
     if request.method == 'GET':
@@ -48,6 +49,34 @@ def test_connection(request):
             return HttpResponse(json.dumps(response))
 
         # 验证是否成功登录
+        #写入本地
+        total_host = []
+        host_info = {
+            'hostname': hostname,
+            'user': user,
+            'password': password
+        }
+        hostjson = 'hostinfo.json'
+        if not os.path.exists(hostjson):
+            print('not exists')
+            total_host.append(host_info)
+        else:
+            print('exists')
+            with open(hostjson) as fr:
+                total_host = json.load(fr)
+            flag = True
+            for h in total_host:
+                if h['hostname'] == host_info.get('hostname') and h['user'] == host_info.get('user'):
+                    h['password'] = host_info.get('password')
+                    flag = False
+            if flag:
+                total_host.append(host_info)
+
+        with open(hostjson, "w") as fw:
+            json.dump(total_host, fw)
+            fw.close()
+
+
 
         response = {'code': '200', 'msg': 'OK'}
         ssh.close()

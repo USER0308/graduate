@@ -1,10 +1,21 @@
 from django.shortcuts import render, render_to_response, HttpResponse
 import json
+import os
 from monitor.client import networking
 # Create your views here.
 
 def monitor(request):
     return render(request, 'monitor.html')
+
+def getHostInfo(request):
+    if request.method == 'POST':
+        total_host = []
+        hostjson = 'hostinfo.json'
+        if os.path.exists(hostjson):
+            with open(hostjson) as fr:
+                total_host = json.load(fr)
+             #   print(type(json.dumps(total_host)))
+        return HttpResponse(json.dumps({'total_host': total_host}))
 
 def info(request):
     return render(request, 'info.html')

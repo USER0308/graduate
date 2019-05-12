@@ -176,80 +176,6 @@
                                     <img src="{% static 'images/bannerPic/8.png'%}" data-url="#">
                                 </div>
                             </div>
-{#                        <div>#}
-{#                            <h3>deployment progress</h3>#}
-{#                            <br>#}
-{#                            <br>#}
-{#                            <div class="progress">#}
-{#                                <p>installing software depandency</p>#}
-{#                                <p>[>curl...</p>#}
-{#                                <p>[>pip...</p>#}
-{#                                <p>[>git...</p>#}
-{#                                <p>[>docker...</p>#}
-{#                                <p>[>docker-compose...</p>#}
-{#                                <br>#}
-{#                                <br>#}
-{#                            </div>#}
-{#                            <div class="progress">#}
-{#                                <p>pulling blockchain image</p>#}
-{#                                <p>orderer...</p>#}
-{#                                <p>peer...</p>#}
-{#                                <p>ca...</p>#}
-{#                                <p>couchdb...</p>#}
-{#                                <p>tools...</p>#}
-{#                                <p>zookeeper...</p>#}
-{#                                <p>kafka...</p>#}
-{#                                <br>#}
-{#                                <br>#}
-{#                            </div>#}
-{#                            <div class="progress">#}
-{#                                <p>generating configure files</p>#}
-{#                                <p>crypto-config.yaml...</p>#}
-{#                                <p>configtx.yaml...</p>#}
-{#                                <p>docker-compose.yaml...</p>#}
-{#                                <br>#}
-{#                                <br>#}
-{#                            </div>#}
-{#                            <div class="progress">#}
-{#                                <p>generate crypto material</p>#}
-{#                                <p>genesis.block...</p>#}
-{#                                <p>channel.tx...</p>#}
-{#                                <p>OrgMSPanchors.tx...</p>#}
-{#                                <br>#}
-{#                                <br>#}
-{#                            </div>#}
-{#                            <div class="progress">#}
-{#                                <p>bring up the network</p>#}
-{#                                <p>docker-compose.yaml up...</p>#}
-{#                                <br>#}
-{#                                <br>#}
-{#                            </div>#}
-{#                            <div class="progress">#}
-{#                                <p>creating the channel</p>#}
-{#                                <p>peer channel create...</p>#}
-{#                                <br>#}
-{#                                <br>#}
-{#                            </div>#}
-{#                            <div class="progress">#}
-{#                                <p>joining into channel</p>#}
-{#                                <p>peer channel join...</p>#}
-{#                                <br>#}
-{#                                <br>#}
-{#                            </div>#}
-{#                            <div class="progress">#}
-{#                                <p>installing chaincode</p>#}
-{#                                <p>peer chaincode install...</p>#}
-{#                                <br>#}
-{#                                <br>#}
-{#                            </div>#}
-{#                            <div class="progress">#}
-{#                                <p>instantiating chaincode</p>#}
-{#                                <p>peer chaincode instantiate...</p>#}
-{#                                <br>#}
-{#                                <br>#}
-{#                            </div>#}
-{##}
-{#                        </div>#}
                     </div>
 
             <div class="clearfix"></div>
@@ -356,6 +282,7 @@
             methods:{
                 isIpValid: function(){
                 	var size = this.ipAddress.length
+                    this.newHost.ip = ''
                 	for (var i = 0; i < size-1; i++) {
                 		var val = this.ipAddress[i].value
                 		val = val.trim();
@@ -455,13 +382,15 @@
                         }
                     });
                     // 添加完newHost对象后，重置newHost对象
-                    //this.newHost = {ip: '', user: '', password: ''};
-                    //this.ipAddress = [{value: ''}, {value: ''}, {value: ''}, {value: ''}]
+                    //this.newHost = {ip: '', user: 'worker', password: 'worker'};
+                    //this.ipAddress = [{value: '192'}, {value: '168'}, {value: '99'}, {value: '100'}]
                 },
                 deploy: function () {
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-                    this.loadingVisible = true
+                    setTimeout(function () {
+                        self.loadingVisible = true
+                    }, 500)
                     $.ajax({
                         async: false,
                             type: "post",
@@ -478,25 +407,35 @@
                             success: function (data) {
 {#                                alert(data.msg)#}
                                 console.log("deploy success")
-                                self.install_software()
+                                setTimeout(function () {
+                                    self.install_software()
+                                }, 2000)
                             },
                             error: function (data) {
 {#                                alert("error")#}
                                 console.log("deploy failed")
-                                self.install_software()
+                                setTimeout(function () {
+                                    self.install_software()
+                                }, 2000)
                             }
                     });
                 },
                 install_software: function() {
-                    var step2 = new SetStep({
-                        content:'.stepCont2',
-                        clickAble:false
-                    });
                     var car = null
-                    $(function () {
+                    var step2 = null
+                    setTimeout(function () {
+                        step2 = new SetStep({
+                            content:'.stepCont2',
+                            clickAble:false
+                        });
+                    }, 2000)
+                    setTimeout(function () {
+                        $(function () {
                         car = $('#bannerCarousel').carousel()
                         car.initalCarousel()
                     })
+                    })
+
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
                     $.ajax({
@@ -510,7 +449,9 @@
                             },
                             success: function (data) {
 {#                                alert(data.msg)#}
-                                self.pull_image(step2, car)
+                                setTimeout(function () {
+                                    self.pull_image(step2, car)
+                                }, 2000)
                             },
                             error: function (data) {
 {#                                alert("error")#}
@@ -518,9 +459,14 @@
                     });
                 },
                 pull_image: function (step2, car) {
-                    step2.nextProgress()
+                    setTimeout(function () {
+                        step2.nextProgress()
+                    }, 2000)
 
-                    car.movingNext(2)
+                    setTimeout(function () {
+                        car.movingNext(1)
+                    }, 2000)
+
 
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
@@ -535,7 +481,10 @@
                             },
                             success: function (data) {
 {#                                alert(data.msg)#}
-                                self.config(step2, car)
+
+                                setTimeout(function () {
+                                    self.config(step2, car)
+                                }, 2000)
                             },
                             error: function (data) {
 {#                                alert("error")#}
@@ -543,8 +492,14 @@
                     });
                 },
                 config: function (step2, car) {
-                    step2.nextProgress()
-                    car.movingNext(3)
+                    setTimeout(function () {
+                        step2.nextProgress()
+                    }, 2000)
+
+                    setTimeout(function () {
+                        car.movingNext(2)
+                    }, 2000)
+
 
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
@@ -559,7 +514,9 @@
                             },
                             success: function (data) {
 {#                                alert(data.msg)#}
-                                self.yaml_up(step2, car)
+                                setTimeout(function () {
+                                    self.yaml_up(step2, car)
+                                }, 2000)
                             },
                             error: function (data) {
 {#                                alert("error")#}
@@ -567,8 +524,13 @@
                     });
                 },
                 yaml_up: function (step2, car) {
-                    step2.nextProgress()
-                    car.movingNext(4)
+                    setTimeout(function () {
+                        step2.nextProgress()
+                    }, 2000)
+
+                    setTimeout(function () {
+                        car.movingNext(3)
+                    }, 2000)
 
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
@@ -583,7 +545,9 @@
                             },
                             success: function (data) {
 {#                                alert(data.msg)#}
-                                self.create_channel(step2, car)
+                                setTimeout(function () {
+                                    self.create_channel(step2, car)
+                                }, 2000)
                             },
                             error: function (data) {
 {#                                alert("error")#}
@@ -591,8 +555,13 @@
                     });
                 },
                 create_channel: function (step2, car) {
-                    step2.nextProgress()
-                    car.movingNext(5)
+                    setTimeout(function () {
+                        step2.nextProgress()
+                    }, 2000)
+
+                    setTimeout(function () {
+                        car.movingNext(4)
+                    }, 2000)
 
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
@@ -607,7 +576,9 @@
                             },
                             success: function (data) {
 {#                                alert(data.msg)#}
-                                self.join_channel(step2, car)
+                                setTimeout(function () {
+                                    self.join_channel(step2, car)
+                                }, 2000)
                             },
                             error: function (data) {
 {#                                alert("error")#}
@@ -615,8 +586,14 @@
                     });
                 },
                 join_channel: function (step2, car) {
-                    step2.nextProgress()
-                    car.movingNext(6)
+                    setTimeout(function () {
+                        step2.nextProgress()
+                    }, 2000)
+
+                    setTimeout(function () {
+                        car.movingNext(5)
+                    }, 2000)
+
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
                     $.ajax({
@@ -630,7 +607,9 @@
                             },
                             success: function (data) {
 {#                                alert(data.msg)#}
-                                self.install_chaincode(step2, car)
+                                setTimeout(function () {
+                                    self.install_chaincode(step2, car)
+                                }, 2000)
                             },
                             error: function (data) {
 {#                                alert("error")#}
@@ -638,8 +617,13 @@
                     });
                 },
                 install_chaincode: function (step2, car) {
-                    step2.nextProgress()
-                    car.movingNext(7)
+                    setTimeout(function () {
+                        step2.nextProgress()
+                    }, 2000)
+
+                    setTimeout(function () {
+                        car.movingNext(6)
+                    }, 2000)
 
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
@@ -654,7 +638,9 @@
                             },
                             success: function (data) {
 {#                                alert(data.msg)#}
-                                self.instantiate_chaincode(step2, car)
+                                setTimeout(function () {
+                                    self.instantiate_chaincode(step2, car)
+                                }, 2000)
                             },
                             error: function (data) {
 {#                                alert("error")#}
@@ -662,9 +648,20 @@
                     });
                 },
                 instantiate_chaincode: function (step2, car) {
-                    step2.nextProgress()
-                    car.movingNext(8)
-                    this.loadingVisible = false
+                    var self = this
+                    setTimeout(function () {
+                        step2.nextProgress()
+                    }, 2000)
+
+                    setTimeout(function () {
+                        car.movingNext(7)
+                    }, 2000)
+                    setTimeout(function () {
+                        self.loadingVisible = false
+                    }, 2000)
+                    setTimeout(function () {
+                        window.location.href = "http://" document.domain + "/monitor/"
+                    },1000)
                 }
             }
         })
