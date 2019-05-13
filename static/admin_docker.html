@@ -1,0 +1,221 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block content %}
+        <div class="wrap-container welcome-container">
+			<div class="row">
+				<div class="welcome-left-container col-lg-11">
+
+                    <!--服务器信息-->
+                    <div class="server-panel panel panel-default">
+                        <div class="panel-header">服务器信息</div>
+                        <div class="panel-body clearfix">
+                            <div class="col-md-2">
+                                <p class="title">服务器操作系统</p>
+                                {% verbatim %}
+                                <span class="info">{{ hostInfo.os }}</span>
+                                {% endverbatim %}
+                            </div>
+                            <div class="col-md-2">
+                                <p class="title">服务器IP地址</p>
+                                {% verbatim %}
+                                <span class="info">{{ hostInfo.ip }}</span>
+                                {% endverbatim %}
+                            </div>
+                            <div class="col-md-2">
+                                <p class="title">服务器域名</p>
+                                {% verbatim %}
+                                <span class="info">{{ hostInfo.domainName }}</span>
+                                {% endverbatim %}
+                            </div>
+                            <div class="col-md-2">
+                                <p class="title">Docker版本</p>
+                                {% verbatim %}
+                                <span class="info">{{ hostInfo.dockerVersion }}</span>
+                                {% endverbatim %}
+                            </div>
+                            <div class="col-md-2">
+                                <p class="title">容器总数目</p>
+                                {% verbatim %}
+                                <span class="info">{{ hostInfo.totalContainer }}</span>
+                                {% endverbatim %}
+                            </div>
+                            <div class="col-md-2">
+                                <p class="title">当前活跃容器数目</p>
+                                {% verbatim %}
+                                <span class="info">{{ hostInfo.activeContainer }}</span>
+                                {% endverbatim %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="server-panel panel panel-default">
+                        <div class="panel-header">容器信息</div>
+                        <div class="panel-body clearfix">
+                            <tr>
+                                <th>
+                                    <div class="col-md-2">
+                                        <p class="title">容器ID</p>
+                                        <span class="info">asef13fs</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-1">
+                                        <p class="title">容器镜像</p>
+                                        <span class="info">Ubuntu:16.04</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-3">
+                                        <p class="title">容器执行命令</p>
+                                        <span class="info">"/bin/bash"</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-2">
+                                        <p class="title">容器创建时间</p>
+                                        <span class="info">2019.04.25 09:25:07</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-1">
+                                        <p class="title">容器状态</p>
+                                        <span class="info">running</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-1">
+                                        <p class="title">容器名字</p>
+                                        <span class="info">Ubuntu</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-2">
+                                        <p class="title">容器端口映射</p>
+                                        <span class="info">80:80</span>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="col-md-2">
+                                        <span class="info">asef13fs</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-1">
+                                        <span class="info">Ubuntu:16.04</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-3">
+                                        <span class="info">"/bin/bash"</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-2">
+                                        <span class="info">2019.04.25 09:25:07</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-1">
+                                        <span class="info">running</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-1">
+                                        <span class="info">Ubuntu</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-md-2">
+                                        <span class="info">80:80</span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <script src="{% static "js/vue.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                hostInfo: {
+                    'os': 'GNU/Linux Ubuntu16.04 x86_64',
+                    'ip': '192.168.10.100',
+                    'domainName': '192.168.10.100',
+                    'dockerVersion': '17.05.0',
+                    'totalContainer': '8',
+                    'activeContainer': '8'
+                },
+                containers: [
+                    {
+                        'id': 'aeswc12',
+                        'image': 'Ubuntu:16.04',
+                        'command': '/bin/bash',
+                        'createTime': '2019.03.29',
+                        'status': 'running',
+                        'name': 'ubuntu',
+                        'port': '80:80'
+                    },
+                    {
+                        'id': 'aeswc12',
+                        'image': 'Ubuntu:16.04',
+                        'command': '/bin/bash',
+                        'createTime': '2019.03.29',
+                        'status': 'running',
+                        'name': 'ubuntu',
+                        'port': '80:80'
+                    },
+                    {
+                        'id': 'aeswc12',
+                        'image': 'Ubuntu:16.04',
+                        'command': '/bin/bash',
+                        'createTime': '2019.03.29',
+                        'status': 'running',
+                        'name': 'ubuntu',
+                        'port': '80:80'
+                    },
+                    {
+                        'id': 'aeswc12',
+                        'image': 'Ubuntu:16.04',
+                        'command': '/bin/bash',
+                        'createTime': '2019.03.29',
+                        'status': 'running',
+                        'name': 'ubuntu',
+                        'port': '80:80'
+                    }
+                ]
+            },
+            created: function () {
+                var  self = this;
+                $.ajax({
+                    async: false,
+                    type: "get",
+                    url: "getBlockchainInfo/",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data.msg)
+                        self.blockchain.ordererNum = data.blockchain.ordererNum
+                        self.blockchain.organizationNum = data.blockchain.organizationNum
+                        self.blockchain.peerNum = data.blockchain.peerNum
+                        self.blockchain.caNum = data.blockchain.caNum
+                        self.blockchain.couchdbNum = data.blockchain.couchdbNum
+                    },
+                    error: function (data) {
+                        self.blockchain.ordererNum = 1
+                        self.blockchain.organizationNum = 2
+                        self.blockchain.peerNum = 2
+                        self.blockchain.caNum = 1
+                        self.blockchain.couchdbNum = 0
+                    }
+                });
+            },
+            methods:{
+            }
+        })
+    </script>
+{% endblock %}

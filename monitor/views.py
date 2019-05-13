@@ -18,7 +18,7 @@ def getHostInfo(request):
         return HttpResponse(json.dumps({'total_host': total_host}))
 
 def info(request):
-    return render(request, 'info.html')
+    return render(request, 'admin_organization.html')
 
 def queryBlockByHash(request):
     if request.method == 'POST':
@@ -92,3 +92,30 @@ def getInfo(request):
         return HttpResponse(json.dumps(response))
     response = {'code': '403', 'msg': 'forbidden'}
     return HttpResponse(json.dumps(response))
+
+def getBlockchainInfo(request):
+    if request.method == 'GET':
+        #res = networking('getBlockchainInfo')
+        # res = ''
+        blockchain_info = {
+            'ordererNum': 1,
+            'organizationNum': 2,
+            'peerNum': 2,
+            'caNum': 1,
+            'couchdbNum': 5
+        }
+        response = {'code': '200', 'blockchain': blockchain_info}
+        return HttpResponse(json.dumps(response))
+    response = {'code': '403', 'msg': 'forbidden'}
+    return HttpResponse(json.dumps(response))
+
+
+
+def admin_docker(request):
+    return render(request, 'admin_docker.html')
+
+def admin_test(request):
+    return render(request, 'admin_test.html')
+
+def admin_querychain(request):
+    return render(request, 'admin_querychain.html')

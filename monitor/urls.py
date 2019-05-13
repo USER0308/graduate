@@ -1,5 +1,6 @@
 from django.conf.urls import include, url
 from .views import monitor, queryBlockByHash, queryBlockByTxid, queryTransactionByTxid, queryInstalledChaincode, queryInstantiatedChaincode, queryChannel, getChannelConfig, getInfo, getHostInfo, info
+from .views import admin_docker, admin_test, admin_querychain, getBlockchainInfo
 urlpatterns = [
     url(r'^$', monitor),
     url(r'getHostInfo/$', getHostInfo),
@@ -12,4 +13,8 @@ urlpatterns = [
     url(r'queryChannel/$', queryChannel),
     url(r'getChannelConfig/$', getChannelConfig),
     url(r'getInfo/$', getInfo),
+    url(r'admin_docker/$', admin_docker),
+    url(r'admin_test/$', admin_test),
+    url(r'admin_querychain/$', admin_querychain),
+    url(r'getBlockchainInfo/$', getBlockchainInfo),
 ]

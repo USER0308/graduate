@@ -1,0 +1,128 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block content %}
+<div class="wrap-container welcome-container">
+			<div class="row">
+				<div class="welcome-left-container col-lg-11">
+					<div class="data-show">
+						<ul class="clearfix">
+							<li class="col-sm-12 col-md-2 col-xs-12">
+								<a href="javascript:;" class="clearfix">
+									<div class="icon-bg bg-org f-l">
+										<span class="iconfont">&#xe606;</span>
+									</div>
+									<div class="right-text-con">
+										<p class="name">联盟内组织数</p>
+                                            {% verbatim %}
+                                            <p><span class="color-org">{{ blockchain.organizationNum }}</span></p>
+                                            {% endverbatim %}
+									</div>
+								</a>
+							</li>
+							<li class="col-sm-12 col-md-2 col-xs-12">
+								<a href="javascript:;" class="clearfix">
+									<div class="icon-bg bg-blue f-l">
+										<span class="iconfont">&#xe609;</span>
+									</div>
+									<div class="right-text-con">
+										<p class="name">组织内节点数</p>
+                                            {% verbatim %}
+                                            <p><span class="color-blue">{{ blockchain.peerNum }}</span></p>
+                                            {% endverbatim %}
+									</div>
+								</a>
+							</li>
+                            <li class="col-sm-12 col-md-2 col-xs-12">
+								<a href="javascript:;" class="clearfix">
+									<div class="icon-bg bg-blue f-l">
+										<span class="iconfont">&#xe607;</span>
+									</div>
+									<div class="right-text-con">
+										<p class="name">排序节点数</p>
+                                            {% verbatim %}
+                                            <p><span class="color-blue">{{ blockchain.ordererNum }}</span></p>
+                                            {% endverbatim %}
+									</div>
+								</a>
+							</li>
+                            <li class="col-sm-12 col-md-3 col-xs-12">
+								<a href="javascript:;" class="clearfix">
+									<div class="icon-bg bg-blue f-l">
+										<span class="iconfont">&#xe606;</span>
+									</div>
+									<div class="right-text-con">
+										<p class="name">组织内CA数</p>
+                                            {% verbatim %}
+                                            <p><span class="color-blue">{{ blockchain.caNum }}</span></p>
+                                            {% endverbatim %}
+									</div>
+								</a>
+							</li>
+							<li class="col-sm-12 col-md-3 col-xs-12">
+								<a href="javascript:;" class="clearfix">
+									<div class="icon-bg bg-green f-l">
+										<span class="iconfont">&#xe602;</span>
+									</div>
+									<div class="right-text-con">
+										<p class="name">节点内couchdb数</p>
+                                            {% verbatim %}
+                                            <p><span class="color-org">{{ blockchain.couchdbNum }}</span></p>
+                                            {% endverbatim %}
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<!--图表-->
+					<div class="chart-panel panel panel-default">
+						<div class="panel-body" id="chart" style="height: 376px;">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    <script src="{% static "js/vue.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static 'admin/layui/layui.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static 'admin/lib/echarts/echarts.js'%}"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                blockchain: {
+                	ordererNum: 1,
+                	organizationNum: 2,
+                	peerNum: 2,
+                	caNum: 0,
+                	couchdbNum: 0
+                }
+            },
+            created: function () {
+                var  self = this;
+                $.ajax({
+                    async: false,
+                    type: "get",
+                    url: "getBlockchainInfo/",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data.msg)
+                        self.blockchain.ordererNum = data.blockchain.ordererNum
+                        self.blockchain.organizationNum = data.blockchain.organizationNum
+                        self.blockchain.peerNum = data.blockchain.peerNum
+                        self.blockchain.caNum = data.blockchain.caNum
+                        self.blockchain.couchdbNum = data.blockchain.couchdbNum
+                    },
+                    error: function (data) {
+                        self.blockchain.ordererNum = 1
+                        self.blockchain.organizationNum = 2
+                        self.blockchain.peerNum = 2
+                        self.blockchain.caNum = 1
+                        self.blockchain.couchdbNum = 0
+                    }
+                });
+            },
+            methods:{
+            }
+        })
+    </script>
+{% endblock %}

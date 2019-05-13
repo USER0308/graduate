@@ -1,0 +1,33 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+    <fieldset>
+                <legend>
+                    测试 待删除
+                </legend>
+                <div class="interface">
+                    <a @click="queryInstalledChaincode()" href="javascript:void(0);">query installed chaincode</a>
+                </div>
+                <div class="interface">
+                    <a @click="queryInstantiatedChaincode()" href="javascript:void(0);">query instantiated chaincode</a>
+                </div>
+                <div class="interface">
+                    <a @click="queryChannel()" href="javascript:void(0);">query channel</a>
+                </div>
+                <div class="interface">
+                    <a @click="getChannelConfig()" href="javascript:void(0);">get channel config</a>
+                </div>
+                <div class="interface">
+                    <a @click="getInfo()" href="javascript:void(0);">query info</a>
+                </div>
+                {% csrf_token %}
+                <div class="interface">
+                    <a @click="queryBlockByHash()" href="javascript:void(0);">query block by hash</a><input type="text" name="block_hash" v-model="blockHash">
+                </div>
+                <div class="interface">
+                    <a @click="queryBlockByTxid()" href="javascript:void(0);">query block by txid</a><input name="block_txid" v-model="blockTxid">
+                </div>
+                <div class="interface">
+                    <a @click="queryTransactionByTxid()" href="javascript:void(0);">query transaction by txid</a><input name="txid" v-model="txid">
+                </div>
+            </fieldset>
+{% endblock %}
