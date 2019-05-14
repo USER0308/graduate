@@ -198,19 +198,11 @@
                     url: "getBlockchainInfo/",
                     dataType: "json",
                     success: function (data) {
-                        console.log(data.msg)
-                        self.blockchain.ordererNum = data.blockchain.ordererNum
-                        self.blockchain.organizationNum = data.blockchain.organizationNum
-                        self.blockchain.peerNum = data.blockchain.peerNum
-                        self.blockchain.caNum = data.blockchain.caNum
-                        self.blockchain.couchdbNum = data.blockchain.couchdbNum
+                        console.log(data)
+
                     },
                     error: function (data) {
-                        self.blockchain.ordererNum = 1
-                        self.blockchain.organizationNum = 2
-                        self.blockchain.peerNum = 2
-                        self.blockchain.caNum = 1
-                        self.blockchain.couchdbNum = 0
+
                     }
                 });
             },

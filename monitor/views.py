@@ -109,7 +109,25 @@ def getBlockchainInfo(request):
     response = {'code': '403', 'msg': 'forbidden'}
     return HttpResponse(json.dumps(response))
 
+def operateChaincode(request):
+    if request.method == 'GET':
+        return render(request, 'admin_chaincodeOperate.html')
 
+def queryChaincode(request):
+    if request.method == 'POST':
+        args = request.POST.get('args')
+        #res = networking('queryChaincode')
+        res = 'query results'
+        response = {'code': '200', 'queryResult': res}
+        return HttpResponse(json.dumps(response))
+
+def invokeChaincode(request):
+    if request.method == 'POST':
+        args = request.POST.get('args')
+        #res = networking('invokeChaincode')
+        res = 'invoke result'
+        response = {'code': '200', 'invokeResult': res}
+        return HttpResponse(json.dumps(response))
 
 def admin_docker(request):
     return render(request, 'admin_docker.html')
@@ -119,3 +137,6 @@ def admin_test(request):
 
 def admin_querychain(request):
     return render(request, 'admin_querychain.html')
+
+def admin_blockchainInfo(request):
+    return render(request, 'admin_blockchainInfo.html')

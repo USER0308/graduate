@@ -1,0 +1,200 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="wrap-container welcome-container">
+			<div class="row">
+				<div class="welcome-left-container col-lg-11">
+                    <div>
+                        {% csrf_token %}
+                    </div>
+
+
+                       <div class="chart-panel panel panel-default">
+                            <div class="panel-body" id="chart" style="height: 150px;">
+                                <div>
+
+                                    已安装链码:
+                                    <br/>
+                                    <div v-html="installedChaincode"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-panel panel panel-default">
+                            <div class="panel-body" id="chart" style="height: 200px">
+                                <div>
+                                    已实例化链码:
+                                    <br/>
+                                    <div v-html="instantiatedChaincode"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-panel panel panel-default">
+                            <div class="panel-body" id="chart" style="height: 100px;">
+                                <div>
+                                    已创建通道:
+                                    <br/>
+                                    <div v-html="channel"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-panel panel panel-default">
+                            <div class="panel-body" id="chart" style="height: 300px;">
+                                <div>
+                                    通道信息:
+                                    <br/>
+                                    <div v-html="channelInfo"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-panel panel panel-default">
+                            <div class="panel-body" id="chart" style="height: 300px;">
+                                <div>
+                                    区块链信息:
+                                    <br/>
+                                    <div v-html="info"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+    </div>
+
+
+    <script src="{% static "js/vue.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                installedChaincode: '',
+                instantiatedChaincode: '',
+                channel: '',
+                channelInfo: '',
+                info: ''
+            },
+            created: function () {
+              var self = this;
+              var installedChaincodeStr = 'chaincodes {\n  name: "mycc"\n  version: "1.0"\n  path: "github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02"\n}';
+              installedChaincodeStr = installedChaincodeStr.replace(new RegExp("\n","gm"), "<br/>");
+              this.installedChaincode = installedChaincodeStr
+              var instantiatedChaincodeStr = 'chaincodes {\n' +
+                  '  name: "mycc"\n' +
+                  '  version: "1.0"\n' +
+                  '  path: "github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02"\n' +
+                  '  escc: "escc"\n' +
+                  '  vscc: "vscc"\n' +
+                  '}';
+              instantiatedChaincodeStr = instantiatedChaincodeStr.replace(new RegExp("\n","gm"), "<br/>");
+              this.instantiatedChaincode = instantiatedChaincodeStr
+              this.channel = 'mychannel';
+              this.channelInfo = 'info';
+              var infoStr = 'height: 5\n' +
+                  'currentBlockHash: "!\\036\\215\\276]9\\243\\002\\217\\233QeEi\\2472c\\222\\267\\202h\\\\\\262\\335z~\\264\\274\\344\\224}\\267"\n' +
+                  'previousBlockHash: "\\032:\\223\\3351x\\004\\347+\\303\\2569\\276\\221\\253\\210\\262\\363g\\367\\333\\215.\\373SL\\241A\\221M\\267\\231"';
+              infoStr = infoStr.replace(new RegExp("\n","gm"), "<br/>");
+              this.info = installedChaincodeStr
+
+            },
+            methods:{
+                queryInstalledChaincode: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "queryInstalledChaincode/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+                queryInstantiatedChaincode: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "queryInstantiatedChaincode/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+                queryChannel: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "queryChannel/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+                getChannelConfig: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "getChannelConfig/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+                getInfo: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "getInfo/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            alert(data.msg)
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                },
+            }
+        })
+    </script>
+{% endblock %}

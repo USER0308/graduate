@@ -1,0 +1,96 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block content %}
+        <div class="wrap-container welcome-container">
+			<div class="row">
+				<div class="welcome-left-container col-lg-11">
+                    <div class="chart-panel panel panel-default">
+                        <div class="panel-body" id="chart" style="height: 300px;">
+                            <fieldset>
+                                <legend>
+                                    操作链码
+                                </legend>
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label>查询链码:</label>
+                                    <input type="text" placeholder="  查询参数" style="width: 400px" v-model="queryArgs">
+                                    <button type="button" @click="queryChaincode()" style="width: 100px; height: 30px">查询</button>
+                                </div>
+                                <div class="form-group">
+                                    <label>调用链码:</label>
+                                    <input type="text" placeholder="  调用参数" style="width: 400px" v-model="invokeArgs">
+                                    <button type="button" @click="invokeChaincode()" style="width: 100px; height: 30px">调用</button>
+                                </div>
+                {#                <div class="interface">#}
+                {#                    <a @click="queryChaincode()" href="javascript:void(0);">query chaincode</a><input v-model="queryArgs">#}
+                {#                </div>#}
+                {#                <div class="interface">#}
+                {#                    <a @click="invokeChaincode()" href="javascript:void(0);">invoke chaincode</a><input v-model="invokeArgs">#}
+                {#                </div>#}
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script src="{% static "js/vue.js" %}"></script>
+
+    <script type="text/javascript" src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                queryArgs: '',
+                invokeArgs: ''
+            },
+            methods:{
+                queryChaincode: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "admin_queryChaincode/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf,
+                            "args": self.queryArgs
+                        },
+                        success: function (data) {
+                            console.log(data.queryResult)
+                            alert('ok')
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                    self.queryArgs = ''
+                },
+                invokeChaincode: function () {
+                    var  self = this;
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "admin_invokeChaincode/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf,
+                            "invokeArgs": self.invokeArgs
+                        },
+                        success: function (data) {
+                            console.log(data.invokeResult)
+                            alert('ok')
+                        },
+                        error: function (data) {
+                            alert("error")
+                        }
+                    });
+                    self.invokeArgs = ''
+                }
+            }
+        })
+    </script>
+{% endblock %}
