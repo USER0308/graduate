@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'getChannelConfig/$', getChannelConfig),
     url(r'getInfo/$', getInfo),
     url(r'admin_docker/$', admin_docker),
-    url(r'admin_test/$', admin_test),
+    url(r'admin_reset/$', admin_test),
     url(r'admin_querychain/$', admin_querychain),
     url(r'getBlockchainInfo/$', getBlockchainInfo),
     url(r'admin_blockchainInfo/$', admin_blockchainInfo),

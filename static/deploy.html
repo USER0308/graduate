@@ -176,6 +176,80 @@
                                     <img src="{% static 'images/bannerPic/8.png'%}" data-url="#">
                                 </div>
                             </div>
+{#                        <div>#}
+{#                            <h3>deployment progress</h3>#}
+{#                            <br>#}
+{#                            <br>#}
+{#                            <div class="progress">#}
+{#                                <p>installing software depandency</p>#}
+{#                                <p>[>curl...</p>#}
+{#                                <p>[>pip...</p>#}
+{#                                <p>[>git...</p>#}
+{#                                <p>[>docker...</p>#}
+{#                                <p>[>docker-compose...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>pulling blockchain image</p>#}
+{#                                <p>orderer...</p>#}
+{#                                <p>peer...</p>#}
+{#                                <p>ca...</p>#}
+{#                                <p>couchdb...</p>#}
+{#                                <p>tools...</p>#}
+{#                                <p>zookeeper...</p>#}
+{#                                <p>kafka...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>generating configure files</p>#}
+{#                                <p>crypto-config.yaml...</p>#}
+{#                                <p>configtx.yaml...</p>#}
+{#                                <p>docker-compose.yaml...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>generate crypto material</p>#}
+{#                                <p>genesis.block...</p>#}
+{#                                <p>channel.tx...</p>#}
+{#                                <p>OrgMSPanchors.tx...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>bring up the network</p>#}
+{#                                <p>docker-compose.yaml up...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>creating the channel</p>#}
+{#                                <p>peer channel create...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>joining into channel</p>#}
+{#                                <p>peer channel join...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>installing chaincode</p>#}
+{#                                <p>peer chaincode install...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                            <div class="progress">#}
+{#                                <p>instantiating chaincode</p>#}
+{#                                <p>peer chaincode instantiate...</p>#}
+{#                                <br>#}
+{#                                <br>#}
+{#                            </div>#}
+{##}
+{#                        </div>#}
                     </div>
 
             <div class="clearfix"></div>
@@ -282,7 +356,6 @@
             methods:{
                 isIpValid: function(){
                 	var size = this.ipAddress.length
-                    this.newHost.ip = ''
                 	for (var i = 0; i < size-1; i++) {
                 		var val = this.ipAddress[i].value
                 		val = val.trim();
@@ -382,15 +455,15 @@
                         }
                     });
                     // 添加完newHost对象后，重置newHost对象
-                    //this.newHost = {ip: '', user: 'worker', password: 'worker'};
-                    //this.ipAddress = [{value: '192'}, {value: '168'}, {value: '99'}, {value: '100'}]
+                    //this.newHost = {ip: '', user: '', password: ''};
+                    //this.ipAddress = [{value: ''}, {value: ''}, {value: ''}, {value: ''}]
                 },
                 deploy: function () {
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
                     setTimeout(function () {
                         self.loadingVisible = true
-                    }, 500)
+                    }, 1000)
                     $.ajax({
                         async: false,
                             type: "post",
@@ -431,10 +504,10 @@
                     }, 2000)
                     setTimeout(function () {
                         $(function () {
-                        car = $('#bannerCarousel').carousel()
-                        car.initalCarousel()
-                    })
-                    })
+                            car = $('#bannerCarousel').carousel()
+                            car.initalCarousel()
+                        })
+                    }, 2000)
 
                     var self = this;
                     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
@@ -657,11 +730,27 @@
                         car.movingNext(7)
                     }, 2000)
                     setTimeout(function () {
-                        self.loadingVisible = false
+                        this.loadingVisible = false
                     }, 2000)
                     setTimeout(function () {
-                        window.location.href = "http://" document.domain + "/monitor/"
-                    },1000)
+                        self.deploy_success(step2, car)
+                    }, 2000)
+
+                },
+                deploy_success: function (step2, car) {
+                    setTimeout(function () {
+                        step2.nextProgress()
+                    }, 2000)
+
+                    setTimeout(function () {
+                        car.movingNext(8)
+                    }, 2000)
+                    setTimeout(function () {
+                        self.alert("部署成功!")
+                    }, 2000)
+                    setTimeout(function () {
+                        window.location.href = "http://" + document.domain + ":8000/monitor/"
+                    },3000)
                 }
             }
         })

@@ -24,7 +24,8 @@ def queryBlockByHash(request):
     if request.method == 'POST':
         block_hash = request.POST.get('hash')
         print(block_hash)
-        res = networking('blockHash' + block_hash)
+        # res = networking('blockHash' + block_hash)
+        res = ''
         print(res)
         response = {'code': '200', 'msg': res}
         return HttpResponse(json.dumps(response))
@@ -35,7 +36,8 @@ def queryBlockByTxid(request):
     if request.method == 'POST':
         txid = request.POST.get('txid')
         print(txid)
-        res = networking('blockTxid' + txid)
+        # res = networking('blockTxid' + txid)
+        res = ''
         print(res)
         response = {'code': '200', 'msg': res}
         return HttpResponse(json.dumps(response))
@@ -46,7 +48,8 @@ def queryTransactionByTxid(request):
     if request.method == 'POST':
         txid = request.POST.get('txid')
         print(txid)
-        res = networking('transactionId'+txid)
+        # res = networking('transactionId'+txid)
+        res = ''
         print(res)
         response = {'code': '200', 'msg': res}
         return HttpResponse(json.dumps(response))

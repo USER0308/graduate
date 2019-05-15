@@ -4,67 +4,31 @@
     <div class="wrap-container welcome-container">
 			<div class="row">
 				<div class="welcome-left-container col-lg-11">
-                    <fieldset>
-                        <legend>
-                            测试 待删除
-                        </legend>
-                        <div class="dataSource">
-                            <div class="form-group">
-                                    <label>Orderer number:</label>
-                                    <input type="number" min=0 v-model="newBlockchain.ordererNum"/>
-                                </div>
+                    <div class="chart-panel panel panel-default">
+                        <div class="panel-body" id="chart" style="height: 500px;">
+                            <fieldset>
+                                <legend>
+                                    重要操作
+                                </legend>
+                                {% csrf_token %}
                                 <div class="form-group">
-                                    <label>Organization number:</label>
-                                    <input type="number" min=0 v-model="newBlockchain.organizationNum"/>
-                                </div>
-                                <div class="form-group">
-                                    <label>Peer number:</label>
-                                    <input type="number" min=0 v-model="newBlockchain.peerNum"/>
-                                </div>
-                                <div class="form-group">
-                                    <label>CA number:</label>
-                                    <input type="number" min=0 v-model="newBlockchain.caNum"/>
-                                </div>
-                                <div class="form-group">
-                                    <label>Couchdb number:</label>
-                                    <input type="number" min=0 v-model="newBlockchain.couchdbNum"/>
+                                    <label></label>
+
+                                    <button type="button" @click="stopBlockchain()" style="width: 100px; height: 30px">停止区块链</button>
                                 </div>
                                 <div class="form-group">
                                     <label></label>
-                                    <button @click="view()" id="viewBtn">view</button>
+
+                                    <button type="button" @click="restartBlockchain()" style="width: 100px; height: 30px">重启区块链</button>
                                 </div>
+                                <div class="form-group">
+                                    <label></label>
+
+                                    <button type="button" @click="clearBlockchain()" style="width: 100px; height: 30px">删除区块链</button>
+                                </div>
+                            </fieldset>
                         </div>
-                    </fieldset>
-                    <fieldset>
-                        <legend>
-                            测试 待删除
-                        </legend>
-                        <div class="interface">
-                            <a @click="queryInstalledChaincode()" href="javascript:void(0);">query installed chaincode</a>
-                        </div>
-                        <div class="interface">
-                            <a @click="queryInstantiatedChaincode()" href="javascript:void(0);">query instantiated chaincode</a>
-                        </div>
-                        <div class="interface">
-                            <a @click="queryChannel()" href="javascript:void(0);">query channel</a>
-                        </div>
-                        <div class="interface">
-                            <a @click="getChannelConfig()" href="javascript:void(0);">get channel config</a>
-                        </div>
-                        <div class="interface">
-                            <a @click="getInfo()" href="javascript:void(0);">query info</a>
-                        </div>
-                        {% csrf_token %}
-                        <div class="interface">
-                            <a @click="queryBlockByHash()" href="javascript:void(0);">query block by hash</a><input type="text" name="block_hash" v-model="blockHash">
-                        </div>
-                        <div class="interface">
-                            <a @click="queryBlockByTxid()" href="javascript:void(0);">query block by txid</a><input name="block_txid" v-model="blockTxid">
-                        </div>
-                        <div class="interface">
-                            <a @click="queryTransactionByTxid()" href="javascript:void(0);">query transaction by txid</a><input name="txid" v-model="txid">
-                        </div>
-                    </fieldset>
+                    </div>
                 </div>
             </div>
     </div>
@@ -75,185 +39,17 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                hosts: '',
-                newBlockchain: {
-                	ordererNum: 1,
-                	organizationNum: 2,
-                	peerNum: 2,
-                	caNum: 0,
-                	couchdbNum: 0
-                },
-                blockHash: '',
-                blockTxid: '',
-                txid: ''
+
             },
             methods:{
-                deleteHost: function (index) {
-                    // body...
+                stopBlockchain: function () {
+                    alert("已停止")
                 },
-                monitor: function (index) {
-
+                restartBlockchain: function () {
+                    alert("已重启")
                 },
-                queryInstalledChaincode: function () {
-                    var  self = this;
-                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-                    $.ajax({
-                        async: false,
-                        type: "post",
-                        url: "queryInstalledChaincode/",
-                        dataType: "json",
-                        data: {
-                            "csrfmiddlewaretoken": csrf
-                        },
-                        success: function (data) {
-                            alert(data.msg)
-                        },
-                        error: function (data) {
-                            alert("error")
-                        }
-                    });
-                },
-                queryInstantiatedChaincode: function () {
-                    var  self = this;
-                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-                    $.ajax({
-                        async: false,
-                        type: "post",
-                        url: "queryInstantiatedChaincode/",
-                        dataType: "json",
-                        data: {
-                            "csrfmiddlewaretoken": csrf
-                        },
-                        success: function (data) {
-                            alert(data.msg)
-                        },
-                        error: function (data) {
-                            alert("error")
-                        }
-                    });
-                },
-                queryChannel: function () {
-                    var  self = this;
-                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-                    $.ajax({
-                        async: false,
-                        type: "post",
-                        url: "queryChannel/",
-                        dataType: "json",
-                        data: {
-                            "csrfmiddlewaretoken": csrf
-                        },
-                        success: function (data) {
-                            alert(data.msg)
-                        },
-                        error: function (data) {
-                            alert("error")
-                        }
-                    });
-                },
-                getChannelConfig: function () {
-                    var  self = this;
-                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-                    $.ajax({
-                        async: false,
-                        type: "post",
-                        url: "getChannelConfig/",
-                        dataType: "json",
-                        data: {
-                            "csrfmiddlewaretoken": csrf
-                        },
-                        success: function (data) {
-                            alert(data.msg)
-                        },
-                        error: function (data) {
-                            alert("error")
-                        }
-                    });
-                },
-                getInfo: function () {
-                    var  self = this;
-                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-                    $.ajax({
-                        async: false,
-                        type: "post",
-                        url: "getInfo/",
-                        dataType: "json",
-                        data: {
-                            "csrfmiddlewaretoken": csrf
-                        },
-                        success: function (data) {
-                            alert(data.msg)
-                        },
-                        error: function (data) {
-                            alert("error")
-                        }
-                    });
-                },
-                queryTransactionByTxid: function () {
-                    var  self = this;
-                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-                    $.ajax({
-                        async: false,
-                        type: "post",
-                        url: "queryTransactionByTxid/",
-                        dataType: "json",
-                        data: {
-                            "csrfmiddlewaretoken": csrf,
-                            "txid": self.txid
-                        },
-                        success: function (data) {
-                            console.log(data.msg)
-                            alert('ok')
-                        },
-                        error: function (data) {
-                            alert("error")
-                        }
-                    });
-                    self.txid = ''
-                },
-                queryBlockByTxid: function () {
-                    var  self = this;
-                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-                    $.ajax({
-                        async: false,
-                        type: "post",
-                        url: "queryBlockByTxid/",
-                        dataType: "json",
-                        data: {
-                            "csrfmiddlewaretoken": csrf,
-                            "txid": self.blockTxid
-                        },
-                        success: function (data) {
-                            console.log(data.msg)
-                            alert('ok')
-                        },
-                        error: function (data) {
-                            alert("error")
-                        }
-                    });
-                    self.blockTxid = ''
-                },
-                queryBlockByHash: function () {
-                    var  self = this;
-                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-                    $.ajax({
-                        async: false,
-                        type: "post",
-                        url: "queryBlockByHash/",
-                        dataType: "json",
-                        data: {
-                            "csrfmiddlewaretoken": csrf,
-                            "hash": self.blockHash
-                        },
-                        success: function (data) {
-                            console.log(data.msg)
-                            alert('ok')
-                        },
-                        error: function (data) {
-                            alert("error")
-                        }
-                    });
-                    self.blockHash = ''
+                clearBlockchain: function () {
+                    alert("已清除")
                 }
             }
         })

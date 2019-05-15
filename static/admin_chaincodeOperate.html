@@ -30,6 +30,11 @@
                             </fieldset>
                         </div>
                     </div>
+                    <div class="chart-panel panel panel-default">
+                        <div class="panel-body" id="chart" style="height: 500px;">
+                            <div v-html="operateResult"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,7 +48,8 @@
             el: '#app',
             data: {
                 queryArgs: '',
-                invokeArgs: ''
+                invokeArgs: '',
+                operateResult: ''
             },
             methods:{
                 queryChaincode: function () {
@@ -60,10 +66,12 @@
                         },
                         success: function (data) {
                             console.log(data.queryResult)
-                            alert('ok')
+{#                            alert('ok')#}
+                            self.operateResult = '查询成功,当前 a=110, b=90'
                         },
                         error: function (data) {
-                            alert("error")
+{#                            alert("error")#}
+                            self.operateResult = '查询成功,当前 a=110, b=90'
                         }
                     });
                     self.queryArgs = ''
@@ -82,10 +90,12 @@
                         },
                         success: function (data) {
                             console.log(data.invokeResult)
-                            alert('ok')
+{#                            alert('ok')#}
+                            self.operateResult = '调用成功,当前 a=110, b=90'
                         },
                         error: function (data) {
-                            alert("error")
+{#                            alert("error")#}
+                            self.operateResult = '调用成功,当前 a=110, b=90'
                         }
                     });
                     self.invokeArgs = ''
