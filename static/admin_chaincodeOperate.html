@@ -65,16 +65,16 @@
                             "args": self.queryArgs
                         },
                         success: function (data) {
-                            console.log(data.queryResult)
+{#                            console.log(data.queryResult)#}
 {#                            alert('ok')#}
-                            self.operateResult = '查询成功,当前 a=110, b=90'
+                            self.operateResult = data.queryResult
                         },
                         error: function (data) {
 {#                            alert("error")#}
-                            self.operateResult = '查询成功,当前 a=110, b=90'
+                            self.operateResult = '查询失败'
                         }
                     });
-                    self.queryArgs = ''
+{#                    self.queryArgs = ''#}
                 },
                 invokeChaincode: function () {
                     var  self = this;
@@ -86,16 +86,16 @@
                         dataType: "json",
                         data: {
                             "csrfmiddlewaretoken": csrf,
-                            "invokeArgs": self.invokeArgs
+                            "args": self.invokeArgs
                         },
                         success: function (data) {
                             console.log(data.invokeResult)
 {#                            alert('ok')#}
-                            self.operateResult = '调用成功,当前 a=110, b=90'
+                            self.operateResult = data.invokeResult
                         },
                         error: function (data) {
 {#                            alert("error")#}
-                            self.operateResult = '调用成功,当前 a=110, b=90'
+                            self.operateResult = '调用失败'
                         }
                     });
                     self.invokeArgs = ''

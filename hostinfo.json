@@ -1,1 +1,1 @@
-[{"password": "worker", "user": "worker", "hostname": "192.168.99.101"},{"password": "worker", "user": "worker", "hostname": "192.168.99.102"},{"password": "worker", "user": "worker", "hostname": "192.168.99.100"}]
+[{"password": "worker", "hostname": "192.168.99.101", "user": "worker"}, {"password": "worker", "hostname": "192.168.99.102", "user": "worker"}, {"password": "worker", "hostname": "192.168.99.100", "user": "worker"}]

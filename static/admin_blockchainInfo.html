@@ -8,8 +8,6 @@
                     <div>
                         {% csrf_token %}
                     </div>
-
-
                        <div class="chart-panel panel panel-default">
                             <div class="panel-body" id="chart" style="height: 150px;">
                                 <div>
@@ -76,27 +74,31 @@
                 info: ''
             },
             created: function () {
-              var self = this;
-              var installedChaincodeStr = 'chaincodes {\n  name: "mycc"\n  version: "1.0"\n  path: "github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02"\n}';
-              installedChaincodeStr = installedChaincodeStr.replace(new RegExp("\n","gm"), "<br/>");
-              this.installedChaincode = installedChaincodeStr
-              var instantiatedChaincodeStr = 'chaincodes {\n' +
-                  '  name: "mycc"\n' +
-                  '  version: "1.0"\n' +
-                  '  path: "github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02"\n' +
-                  '  escc: "escc"\n' +
-                  '  vscc: "vscc"\n' +
-                  '}';
-              instantiatedChaincodeStr = instantiatedChaincodeStr.replace(new RegExp("\n","gm"), "<br/>");
-              this.instantiatedChaincode = instantiatedChaincodeStr
-              this.channel = 'mychannel';
-              this.channelInfo = 'info';
-              var infoStr = 'height: 5\n' +
-                  'currentBlockHash: "!\\036\\215\\276]9\\243\\002\\217\\233QeEi\\2472c\\222\\267\\202h\\\\\\262\\335z~\\264\\274\\344\\224}\\267"\n' +
-                  'previousBlockHash: "\\032:\\223\\3351x\\004\\347+\\303\\2569\\276\\221\\253\\210\\262\\363g\\367\\333\\215.\\373SL\\241A\\221M\\267\\231"';
-              infoStr = infoStr.replace(new RegExp("\n","gm"), "<br/>");
-              this.info = installedChaincodeStr
-
+{#              var self = this;#}
+{#              var installedChaincodeStr = 'chaincodes {\n  name: "mycc"\n  version: "1.0"\n  path: "github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02"\n}';#}
+{#              installedChaincodeStr = installedChaincodeStr.replace(new RegExp("\n","gm"), "<br/>");#}
+{#              this.installedChaincode = installedChaincodeStr#}
+{#              var instantiatedChaincodeStr = 'chaincodes {\n' +#}
+{#                  '  name: "mycc"\n' +#}
+{#                  '  version: "1.0"\n' +#}
+{#                  '  path: "github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02"\n' +#}
+{#                  '  escc: "escc"\n' +#}
+{#                  '  vscc: "vscc"\n' +#}
+{#                  '}';#}
+{#              instantiatedChaincodeStr = instantiatedChaincodeStr.replace(new RegExp("\n","gm"), "<br/>");#}
+{#              this.instantiatedChaincode = instantiatedChaincodeStr#}
+{#              this.channel = 'mychannel';#}
+{#              this.channelInfo = 'info';#}
+{#              var infoStr = 'height: 5\n' +#}
+{#                  'currentBlockHash: "!\\036\\215\\276]9\\243\\002\\217\\233QeEi\\2472c\\222\\267\\202h\\\\\\262\\335z~\\264\\274\\344\\224}\\267"\n' +#}
+{#                  'previousBlockHash: "\\032:\\223\\3351x\\004\\347+\\303\\2569\\276\\221\\253\\210\\262\\363g\\367\\333\\215.\\373SL\\241A\\221M\\267\\231"';#}
+{#              infoStr = infoStr.replace(new RegExp("\n","gm"), "<br/>");#}
+{#              this.info = installedChaincodeStr#}
+                this.queryInstalledChaincode();
+                this.queryInstantiatedChaincode()
+                this.queryChannel()
+                this.getChannelConfig()
+                this.getInfo()
             },
             methods:{
                 queryInstalledChaincode: function () {
@@ -111,7 +113,8 @@
                             "csrfmiddlewaretoken": csrf
                         },
                         success: function (data) {
-                            alert(data.msg)
+{#                            alert(data.msg)#}
+                            self.installedChaincode = data.msg
                         },
                         error: function (data) {
                             alert("error")
@@ -130,7 +133,8 @@
                             "csrfmiddlewaretoken": csrf
                         },
                         success: function (data) {
-                            alert(data.msg)
+{#                            alert(data.msg)#}
+                            self.instantiatedChaincode = data.msg
                         },
                         error: function (data) {
                             alert("error")
@@ -149,7 +153,8 @@
                             "csrfmiddlewaretoken": csrf
                         },
                         success: function (data) {
-                            alert(data.msg)
+{#                            alert(data.msg)#}
+                            self.channel = data.msg
                         },
                         error: function (data) {
                             alert("error")
@@ -168,7 +173,8 @@
                             "csrfmiddlewaretoken": csrf
                         },
                         success: function (data) {
-                            alert(data.msg)
+{#                            alert(data.msg)#}
+                            self.channelInfo = data.msg
                         },
                         error: function (data) {
                             alert("error")
@@ -187,13 +193,41 @@
                             "csrfmiddlewaretoken": csrf
                         },
                         success: function (data) {
-                            alert(data.msg)
+{#                            alert(data.msg)#}
+                            self.info = data.msg
                         },
                         error: function (data) {
                             alert("error")
                         }
                     });
                 },
+                formatJson: function(msg) {
+                    var rep = "~";
+                    var jsonStr = JSON.stringify(msg, null, rep)
+                    var str = "";
+                    for (var i = 0; i < jsonStr.length; i++) {
+                        var text2 = jsonStr.charAt(i)
+                        if (i > 1) {
+                            var text = jsonStr.charAt(i - 1)
+                            if (rep !== text && rep === text2) {
+                                str += "<br/>"
+                            }
+                        }
+                        str += text2;
+                    }
+                    jsonStr = "";
+                    for (var i = 0; i < str.length; i++) {
+                        var text = str.charAt(i);
+                        if (rep === text)
+                            jsonStr += "&nbsp;&nbsp;&nbsp;&nbsp;"
+                        else {
+                            jsonStr += text;
+                        }
+                        if (i === str.length - 2)
+                            jsonStr += "<br/>"
+                    }
+                    return jsonStr;
+                    }
             }
         })
     </script>

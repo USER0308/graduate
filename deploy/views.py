@@ -16,6 +16,15 @@ def deploy(request):
         peer_num = request.POST.get('peerNum')
         ca_num = request.POST.get('caNum')
         couchdb_num = request.POST.get('couchdbNum')
+        info = {
+            'orderer_num': orderer_num,
+            'org_num': org_num,
+            'peer_num': peer_num,
+            'couchdb_num': couchdb_num,
+            'ca_num': ca_num
+        }
+        info_str = json.dumps(info)
+        networking('num'+info_str)
         # print(orderer_num)
         # print(org_num)
         # print(peer_num)
@@ -76,48 +85,49 @@ def test_connection(request):
             json.dump(total_host, fw)
             fw.close()
 
-
-
         response = {'code': '200', 'msg': 'OK'}
         ssh.close()
         return HttpResponse(json.dumps(response))
 
 def install_software(request):
-    #networking('')
+    # networking('software')
+    # networking('binary')
     response = {'code': '200', 'msg': 'ok'}
     return HttpResponse(json.dumps(response))
 
 def pull_image(request):
-    # networking('')
+    # networking('image')
     response = {'code': '200', 'msg': 'ok'}
     return HttpResponse(json.dumps(response))
 
 def config(request):
-    # networking('')
+    networking('config')
+    networking('material')
+    networking('docker-compose')
     response = {'code': '200', 'msg': 'ok'}
     return HttpResponse(json.dumps(response))
 
 def yaml_up(request):
-    # networking('')
+    networking('build')
     response = {'code': '200', 'msg': 'ok'}
     return HttpResponse(json.dumps(response))
 
 def create_channel(request):
-    # networking('')
+    networking('createChannel')
     response = {'code': '200', 'msg': 'ok'}
     return HttpResponse(json.dumps(response))
 
 def join_channel(request):
-    # networking('')
+    networking('joinChannel')
     response = {'code': '200', 'msg': 'ok'}
     return HttpResponse(json.dumps(response))
 
 def install_chaincode(request):
-    # networking('')
+    networking('installChaincode')
     response = {'code': '200', 'msg': 'ok'}
     return HttpResponse(json.dumps(response))
 
 def instantiate_chaincode(request):
-    # networking()
+    networking('instantiateChaincode')
     response = {'code': '200', 'msg': 'ok'}
     return HttpResponse(json.dumps(response))

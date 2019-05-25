@@ -32,21 +32,21 @@ th {
 	padding: 5px 10px
 }
 
-th {
-	background: #42b983;
-	font-size: 1.2rem;
-	font-weight: 400;
-	color: #fff;
-	cursor: pointer
-}
+/*th {*/
+	/*background: #42b983;*/
+	/*font-size: 1.2rem;*/
+	/*font-weight: 400;*/
+	/*color: #fff;*/
+	/*cursor: pointer*/
+/*}*/
 
-tr:nth-of-type(odd) {
-	background: #fff
-}
+/*tr:nth-of-type(odd) {*/
+	/*background: #fff*/
+/*}*/
 
-tr:nth-of-type(even) {
-	background: #eee
-}
+/*tr:nth-of-type(even) {*/
+	/*background: #eee*/
+/*}*/
 
 fieldset {
 	border: 1px solid #BCBCBC;

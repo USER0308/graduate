@@ -55,83 +55,80 @@
                                 <th>
                                     <div class="col-md-2">
                                         <p class="title">容器ID</p>
-                                        <span class="info">asef13fs</span>
                                     </div>
                                 </th>
                                 <th>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <p class="title">容器镜像</p>
-                                        <span class="info">Ubuntu:16.04</span>
                                     </div>
                                 </th>
                                 <th>
                                     <div class="col-md-3">
                                         <p class="title">容器执行命令</p>
-                                        <span class="info">"/bin/bash"</span>
                                     </div>
                                 </th>
                                 <th>
                                     <div class="col-md-2">
                                         <p class="title">容器创建时间</p>
-                                        <span class="info">2019.04.25 09:25:07</span>
                                     </div>
                                 </th>
                                 <th>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <p class="title">容器状态</p>
-                                        <span class="info">running</span>
                                     </div>
                                 </th>
                                 <th>
                                     <div class="col-md-1">
                                         <p class="title">容器名字</p>
-                                        <span class="info">Ubuntu</span>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="col-md-2">
-                                        <p class="title">容器端口映射</p>
-                                        <span class="info">80:80</span>
                                     </div>
                                 </th>
                             </tr>
-                            <tr>
-                                <th>
+                            <table>
+                            <tr  v-for="container in containers">
                                     <div class="col-md-2">
-                                        <span class="info">asef13fs</span>
+                                        {% verbatim %}
+                                        <td>
+                                        <span class="info">{{ container.id }}</span>
+                                        </td>
+                                        {% endverbatim %}
                                     </div>
-                                </th>
-                                <th>
-                                    <div class="col-md-1">
-                                        <span class="info">Ubuntu:16.04</span>
+                                    <div class="col-md-2">
+                                        {% verbatim %}
+                                        <td>
+                                        <span class="info">{{ container.image }}</span>
+                                        </td>
+                                        {% endverbatim %}
                                     </div>
-                                </th>
-                                <th>
                                     <div class="col-md-3">
-                                        <span class="info">"/bin/bash"</span>
+                                        {% verbatim %}
+                                        <td>
+                                        <span class="info">{{ container.command }}</span>
+                                        </td>
+                                        {% endverbatim %}
                                     </div>
-                                </th>
-                                <th>
                                     <div class="col-md-2">
-                                        <span class="info">2019.04.25 09:25:07</span>
+                                        {% verbatim %}
+                                        <td>
+                                        <span class="info">{{ container.create_time }}</span>
+                                        </td>
+                                        {% endverbatim %}
                                     </div>
-                                </th>
-                                <th>
-                                    <div class="col-md-1">
-                                        <span class="info">running</span>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="col-md-1">
-                                        <span class="info">Ubuntu</span>
-                                    </div>
-                                </th>
-                                <th>
                                     <div class="col-md-2">
-                                        <span class="info">80:80</span>
+                                        {% verbatim %}
+                                        <td>
+                                        <span class="info">{{ container.status }}</span>
+                                        </td>
+                                        {% endverbatim %}
                                     </div>
-                                </th>
+                                    <div class="col-md-1">
+                                        {% verbatim %}
+                                        <td>
+                                        <span class="info">{{ container.name }}</span>
+                                        </td>
+                                        {% endverbatim %}
+                                    </div>
                             </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -144,51 +141,14 @@
             el: '#app',
             data: {
                 hostInfo: {
-                    'os': 'GNU/Linux Ubuntu16.04 x86_64',
-                    'ip': '192.168.10.100',
-                    'domainName': '192.168.10.100',
-                    'dockerVersion': '17.05.0',
-                    'totalContainer': '8',
-                    'activeContainer': '8'
+                    'os': '',
+                    'ip': '',
+                    'domainName': '',
+                    'dockerVersion': '',
+                    'totalContainer': '',
+                    'activeContainer': ''
                 },
-                containers: [
-                    {
-                        'id': 'aeswc12',
-                        'image': 'Ubuntu:16.04',
-                        'command': '/bin/bash',
-                        'createTime': '2019.03.29',
-                        'status': 'running',
-                        'name': 'ubuntu',
-                        'port': '80:80'
-                    },
-                    {
-                        'id': 'aeswc12',
-                        'image': 'Ubuntu:16.04',
-                        'command': '/bin/bash',
-                        'createTime': '2019.03.29',
-                        'status': 'running',
-                        'name': 'ubuntu',
-                        'port': '80:80'
-                    },
-                    {
-                        'id': 'aeswc12',
-                        'image': 'Ubuntu:16.04',
-                        'command': '/bin/bash',
-                        'createTime': '2019.03.29',
-                        'status': 'running',
-                        'name': 'ubuntu',
-                        'port': '80:80'
-                    },
-                    {
-                        'id': 'aeswc12',
-                        'image': 'Ubuntu:16.04',
-                        'command': '/bin/bash',
-                        'createTime': '2019.03.29',
-                        'status': 'running',
-                        'name': 'ubuntu',
-                        'port': '80:80'
-                    }
-                ]
+                containers: []
             },
             created: function () {
                 var  self = this;
@@ -199,14 +159,49 @@
                     dataType: "json",
                     success: function (data) {
                         console.log(data)
-
                     },
                     error: function (data) {
 
                     }
                 });
+
+
+                self.get_os_info()
+                self.get_docker_info()
             },
             methods:{
+                get_os_info: function () {
+                    var self = this;
+                    $.ajax({
+                        async: false,
+                        type: "get",
+                        url: "getOSInfo/",
+                        dataType: "json",
+                        success: function (data) {
+                            self.hostInfo = data.msg
+                        },
+                        error: function (data) {
+                            console.log(data)
+                        }
+                    });
+
+                },
+                get_docker_info: function () {
+                    var self = this;
+                    $.ajax({
+                        async: false,
+                        type: "get",
+                        url: "getDockerInfo/",
+                        dataType: "json",
+                        success: function (data) {
+{#                            console.log(data.msg)#}
+                            self.containers = data.msg
+                        },
+                        error: function (data) {
+                            console.log(data)
+                        }
+                    });
+                }
             }
         })
     </script>

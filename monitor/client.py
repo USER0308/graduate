@@ -13,7 +13,7 @@ def networking(command):
 	res += server_reply.decode()
 	while server_reply != 'end':
 		# print 'recving...'
-		print(server_reply)
+		# print(server_reply)
 		server_reply = sk.recv(1024)
 		server_reply = server_reply.decode()
 		res += server_reply

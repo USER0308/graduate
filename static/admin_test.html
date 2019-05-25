@@ -2,6 +2,15 @@
 {% load static %}
 {% block content %}
     <div class="wrap-container welcome-container">
+        <div class="loadingView" v-if="loadingVisible">
+            <div class="loadingSpinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+        </div>
 			<div class="row">
 				<div class="welcome-left-container col-lg-11">
                     <div class="chart-panel panel panel-default">
@@ -39,17 +48,74 @@
         var vm = new Vue({
             el: '#app',
             data: {
-
+                loadingVisible: false
             },
             methods:{
                 stopBlockchain: function () {
-                    alert("已停止")
+                    var  self = this;
+                    setTimeout(function () {
+                        self.loadingVisible = true;
+                    },1000);
+                    var msg = '';
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "/monitor/admin_network_stop/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            msg = data.msg
+                        },
+                        error: function (data) {
+                            msg = data.msg
+                        }
+                    });
+                    setTimeout(function () {
+                        self.loadingVisible = false;
+                    },1000);
+                    console.log(msg);
+                    if (msg !== '') {
+                        alert(msg)
+                    }
+{#                    alert("已停止")#}
                 },
                 restartBlockchain: function () {
-                    alert("已重启")
+
+{#                    alert("已重启")#}
                 },
                 clearBlockchain: function () {
-                    alert("已清除")
+                    var  self = this;
+                    setTimeout(function () {
+                        self.loadingVisible = true;
+                    },1000);
+                    var msg = '';
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: "/monitor/admin_network_clear/",
+                        dataType: "json",
+                        data: {
+                            "csrfmiddlewaretoken": csrf
+                        },
+                        success: function (data) {
+                            msg = data.msg
+                        },
+                        error: function (data) {
+                            msg = data.msg
+                        }
+                    });
+                    setTimeout(function () {
+                        self.loadingVisible = false;
+                    },1000);
+                    console.log(msg);
+                    if (msg !== '') {
+                        alert(msg)
+                    }
+
                 }
             }
         })
