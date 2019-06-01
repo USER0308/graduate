@@ -65,13 +65,13 @@
                                 <ul class="clearfix">
                                     <li class="active"><a href="">首页</a>
                                     </li>
-                                    <li><a href="#">特色</a>
+                                    <li><a href="#clearfix">特色</a>
                                     </li>
-                                    <li><a href="#">源码</a>
+                                    <li><a href="https://github.com/USER0308/graduate">源码</a>
                                     </li>
-                                    <li><a href="#">更新日志</a>
+                                    <li><a href="https://github.com/USER0308/graduate/commits/master">更新日志</a>
                                     </li>
-                                    <li><a href="#">联系我们</a>
+                                    <li><a href="#contractus">联系我们</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -104,10 +104,10 @@
                 <nav>
                   <ul class="clearfix">
                         <li><a href="">首页</a></li>
-                        <li><a href="features.html">特色</a></li>
-                        <li><a href="pages.html">源码</a></li>
-                        <li><a href="blog.html">更新日志</a></li>
-                        <li><a href="contact.html">联系我们</a></li>
+                        <li><a href="#clearfix">特色</a></li>
+                        <li><a href="https://github.com/USER0308/graduate">源码</a></li>
+                        <li><a href="https://github.com/USER0308/graduate/commits/master">更新日志</a></li>
+                        <li><a href="#contractus">联系我们</a></li>
                     </ul>
                 </nav>
             </div>
@@ -222,7 +222,7 @@
         </div>
         <!-- slider close -->
 
-        <div class="clearfix"></div>
+        <div class="clearfix"><a name="clearfix"></a></div>
 
         <!-- content begin -->
         <div id="content" class="no-padding">
@@ -240,13 +240,14 @@
                                 <div class="tiny-border"></div>
                                 <p>这个平台是用来干嘛的</p>
                                 <ul class="list-style-1">
-                                    <li>搭建自定义的 Fabric 区块链网络</li>
-                                    <li>部署自定义的 chaincode</li>
+                                    <li>部署自定义的 Fabric 区块链网络</li>
                                     <li>查询区块链网络数据</li>
+                                    <li>操作区块链链码</li>
                                     <li>监控网络健康状态</li>
+                                    <li>销毁区块链网络</li>
                                 </ul>
                                 <div class="divider-single"></div>
-                                <a href="#" class="btn btn-primary btn-small">立即体验</a>
+                                <a href="/deploy" class="btn btn-primary btn-small">立即体验</a>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
@@ -266,7 +267,7 @@
                                 <div class="feature no-margin-bottom">
                                     <i class="fa fa-bullhorn"></i>
                                     <h3>可视化</h3>
-                                    <p>直观看到区块链上内容.</p>
+                                    <p>直观看到区块链上信息.</p>
                                 </div>
                             </div>
                         </div>
@@ -292,9 +293,9 @@
                                             <img src="{% static 'images/projects/small-2.jpg' %}" alt="" class="img-responsive">
                                             <div class="project-details">
                                                 <p class="folio-title"><a href="#">网络部署</a></p>
-                                                <p class="folio-cate"><i class="fa fa-tag"></i><a href="#">Finance</a>, <a href="#">Marketing</a></p>
+                                                <p class="folio-cate"><i class="fa fa-tag"></i><a href="#">Deploying</a></p>
                                                 <div class="folio-buttons">
-                                                    <a href="{% static 'images/projects/medium-1.jpg' %}" title="Plan For Your Bussiness" class="folio"><i class="fa fa-search"></i></a>
+                                                    <a href="{% static 'images/projects/medium-1.jpg' %}" title="Deploying your blockchain network" class="folio"><i class="fa fa-search"></i></a>
                                                     <a href="#"><i class="fa fa-link"></i></a>
                                                 </div>
                                             </div>
@@ -303,9 +304,9 @@
                                             <img src="{% static 'images/projects/small-3.jpg' %}" alt="" class="img-responsive">
                                             <div class="project-details">
                                                 <p class="folio-title"><a href="#">网络管理</a></p>
-                                                <p class="folio-cate"><i class="fa fa-tag"></i><a href="#">Finance</a>, <a href="#">Marketing</a></p>
+                                                <p class="folio-cate"><i class="fa fa-tag"></i><a href="#">Management</a></p>
                                                 <div class="folio-buttons">
-                                                    <a href="{% static 'images/projects/medium-2.jpg' %}" title="Business Growth Solutions" class="folio"><i class="fa fa-search"></i></a>
+                                                    <a href="{% static 'images/projects/medium-2.jpg' %}" title="Managing your blockchain network" class="folio"><i class="fa fa-search"></i></a>
                                                     <a href="#"><i class="fa fa-link"></i></a>
                                                 </div>
                                             </div>
@@ -314,9 +315,9 @@
                                             <img src="{% static 'images/projects/small-4.jpg' %}" alt="" class="img-responsive">
                                             <div class="project-details">
                                                 <p class="folio-title"><a href="#">网络监控</a></p>
-                                                <p class="folio-cate"><i class="fa fa-tag"></i><a href="#">Finance</a>, <a href="#">Marketing</a></p>
+                                                <p class="folio-cate"><i class="fa fa-tag"></i><a href="#">Monitor</a></p>
                                                 <div class="folio-buttons">
-                                                    <a href="{% static 'images/projects/medium-3.jpg' %}" title="Enterprise Development" class="folio"><i class="fa fa-search"></i></a>
+                                                    <a href="{% static 'images/projects/medium-3.jpg' %}" title="Monitoring your blockchain network" class="folio"><i class="fa fa-search"></i></a>
                                                     <a href="#"><i class="fa fa-link"></i></a>
                                                 </div>
                                             </div>
@@ -355,7 +356,7 @@
                                             <p>编写首页前端代码并进行美化页面</p>
                                             <div class="latest-blog-post-data">
                                                 <span class="tags"><i class="fa fa-tags"></i> <a href="#">Code,</a> <a href="#">Beautify</a></span>
-                                                <span class="btn-read"><a href="#"><i class="fa fa-plus-square"></i> 详细</a></span>
+                                                <span class="btn-read"><a href="https://github.com/USER0308/graduate/commits/master"><i class="fa fa-plus-square"></i> 详细</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -371,7 +372,7 @@
                                             <p>监控功能分别在不同的自定义网络部署正常运行</p>
                                             <div class="latest-blog-post-data">
                                                 <span class="tags"><i class="fa fa-tags"></i> <a href="#">Fix Bug,</a> <a href="#">Test</a></span>
-                                                <span class="btn-read"><a href="#"><i class="fa fa-plus-square"></i> 详细</a></span>
+                                                <span class="btn-read"><a href="https://github.com/USER0308/graduate/commits/master"><i class="fa fa-plus-square"></i> 详细</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -387,7 +388,7 @@
                                             <p>开发对区块链网络进行监控的功能</p>
                                             <div class="latest-blog-post-data">
                                                 <span class="tags"><i class="fa fa-tags"></i> <a href="#">Code</a></span>
-                                                <span class="btn-read"><a href="#"><i class="fa fa-plus-square"></i> 详细</a></span>
+                                                <span class="btn-read"><a href="https://github.com/USER0308/graduate/commits/master"><i class="fa fa-plus-square"></i> 详细</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -404,7 +405,7 @@
                                             <p>开发对区块链网络进行部署的功能</p>
                                             <div class="latest-blog-post-data">
                                                 <span class="tags"><i class="fa fa-tags"></i> <a href="#">Development,</a> <a href="#">Maketing</a></span>
-                                                <span class="btn-read"><a href="#"><i class="fa fa-plus-square"></i> Read more</a></span>
+                                                <span class="btn-read"><a href="https://github.com/USER0308/graduate/commits/master"><i class="fa fa-plus-square"></i>详细</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -420,7 +421,7 @@
                                             <p>根据用户需求,研究自定义区块链网络结构</p>
                                             <div class="latest-blog-post-data">
                                                 <span class="tags"><i class="fa fa-tags"></i> <a href="#">Research,</a> <a href="#">Experiment</a></span>
-                                                <span class="btn-read"><a href="#"><i class="fa fa-plus-square"></i> 详细</a></span>
+                                                <span class="btn-read"><a href="https://github.com/USER0308/graduate/commits/master"><i class="fa fa-plus-square"></i> 详细</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -436,7 +437,7 @@
                                             <p>对配置文件进行阅读理解并更改</p>
                                             <div class="latest-blog-post-data">
                                                 <span class="tags"><i class="fa fa-tags"></i> <a href="#">Code,</a> <a href="#">Experiment</a></span>
-                                                <span class="btn-read"><a href="#"><i class="fa fa-plus-square"></i> 详细</a></span>
+                                                <span class="btn-read"><a href="https://github.com/USER0308/graduate/commits/master"><i class="fa fa-plus-square"></i> 详细</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -455,7 +456,7 @@
                                     <div class="item">
                                         <div class="testi-boxes">
                                             <p>
-                                                Hyperledger Fabric是用于快速部署区块链网络区块链技术
+                                                Hyperledger Fabric标志着区块链3.0时代的来临, 提供了快速部署区块链网络的脚本
                                             </p>
                                             <div class="testi-info clearfix">
                                                 <img alt="" src="{% static 'images/testimonial/thumb-1.png' %}" class="img-circle">
@@ -468,7 +469,7 @@
                                     <div class="item">
                                         <div class="testi-boxes">
                                             <p>
-                                                Django 是基于 Python语言,快速开发网页应用程序的框架
+                                                Django 是基于 Python 语言, 采用MVT分层架构, 用于快速开发网页应用程序的框架
                                             <div class=" testi-info clearfix">
                                                 <img alt="" src="{% static 'images/testimonial/thumb-2.png' %}" class="img-circle">
                                                 <div class="testi-details">
@@ -480,7 +481,7 @@
                                     <div class="item">
                                         <div class="testi-boxes">
                                             <p>
-                                                Vue.js是前端框架
+                                                Vue.js是一套构建用户界面的渐进式前端框架, 只关注视图层, 采用自底向上增量开发的设计
                                             </p>
                                             <div class="testi-info clearfix">
                                                 <img alt="" src="{% static 'images/testimonial/thumb-3.png' %}" class="img-circle">
@@ -493,7 +494,7 @@
                                     <div class="item">
                                         <div class="testi-boxes">
                                             <p>
-                                                Bootstrap是前端框架中的组件库
+                                                Bootstrap是Twitter推出的一个用于前端开发的CSS/HTML框架,它简洁灵活,适合快速开发 Web 前端
                                             </p>
                                             <div class="testi-info clearfix">
                                                 <img alt="" src="{% static 'images/testimonial/thumb-3.png' %}" class="img-circle">
@@ -519,7 +520,7 @@
                         <div class="col-md-12">
                             <div class="cal-to-action text-center">
                                 <span>更多功能正在开发中,加入我们,为开源社区贡献力量</span>
-                                <a href="#" class="btn btn-border-light">加入我们</a>
+                                <a href="https://github.com/USER0308/graduate" class="btn btn-border-light">加入我们</a>
                             </div>
                         </div>
                     </div>
@@ -529,7 +530,9 @@
 
         </div>
         <!-- content close -->
-
+        <div>
+            <a name="contractus"></a>
+        </div>
         <!-- footer begin -->
         <footer class="footer-1 bg-color-1">
 
@@ -541,7 +544,7 @@
                             <div class="compact-widget">
                                 <div class="widget-inner">
                                     <img class="logo-footer" src="{% static 'images/logo-footer.png' %}" alt="compact company">
-                                    <p>基于Fabric的区块链部署及监控平台是一个可以满足用户对区块链网络的自定义需求,将区块链网络部署到其服务器上,并能方便地查询区块链上数据</p>
+                                    <p>基于Fabric的区块链部署及监控平台可以满足用户对区块链网络的自定义需求,将区块链网络部署到其服务器上,并能方便地查看区块链上数据</p>
                                     <div class="social-icons clearfix">
                                         <a href="#" class="facebook tipped" data-title="facebook"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-facebook"></i></a>
                                         <a href="#" class="twitter tipped" data-title="twitter"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-twitter"></i></a>

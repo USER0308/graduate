@@ -52,15 +52,15 @@
                                     <!-- desktop menu begin -->
                                     <nav id="desktop-menu" class="site-desktop-menu hidden-xs hidden-sm">
                                         <ul class="clearfix">
-                                            <li class="active"><a href="">首页</a>
+                                            <li class="active"><a href="http://127.0.0.1:8000">首页</a>
                                             </li>
-                                            <li><a href="#">特色</a>
+                                            <li><a href="http://127.0.0.1:8000/#clearfix">特色</a>
                                             </li>
-                                            <li><a href="#">源码</a>
+                                            <li><a href="https://github.com/USER0308/graduate">源码</a>
                                             </li>
-                                            <li><a href="#">更新日志</a>
+                                            <li><a href="https://github.com/USER0308/graduate/commits/master">更新日志</a>
                                             </li>
-                                            <li><a href="#">联系我们</a>
+                                            <li><a href="http://127.0.0.1:8000/#contractus">联系我们</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -91,7 +91,7 @@
                             {% verbatim %}
                             <td>{{ host.hostname }}</td>
                             <td>{{ host.user }}</td>
-                            <td>{{ host.password }}</td>
+                            <td>  ******</td>
                             {% endverbatim %}
                             <td :class="'text-center'"><button @click="deleteHost($index)">删除</button></td>
                             <td :class="'text-center'"><button @click="monitor($index)">查看</button></td>
@@ -114,7 +114,7 @@
                                 <div class="compact-widget">
                                     <div class="widget-inner">
                                         <img class="logo-footer" src="{% static 'images/logo-footer.png' %}" alt="compact company">
-                                        <p>基于Fabric的区块链部署及监控平台是一个可以满足用户对区块链网络的自定义需求,将区块链网络部署到其服务器上,并能方便地查询区块链上数据</p>
+                                        <p>基于Fabric的区块链部署及监控平台可以满足用户对区块链网络的自定义需求,将区块链网络部署到其服务器上,并能方便地查看区块链上数据</p>
                                         <div class="social-icons clearfix">
                                             <a href="#" class="facebook tipped" data-title="facebook"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-facebook"></i></a>
                                             <a href="#" class="twitter tipped" data-title="twitter"  data-tipper-options='{"direction":"top","follow":"true"}'><i class="fa fa-twitter"></i></a>
@@ -168,23 +168,6 @@
         var vm = new Vue({
             el: '#app',
             data: {
-{#                hosts: [{#}
-{#                    ip: '102.168.1.1',#}
-{#                    user: 'root',#}
-{#                    password: 'toor'#}
-{#                }, {#}
-{#                    ip: '102.168.1.2',#}
-{#                    user: 'root',#}
-{#                    password: 'toor'#}
-{#                }, {#}
-{#                    ip: '102.168.1.3',#}
-{#                    user: 'root',#}
-{#                    password: 'toor'#}
-{#                }, {#}
-{#                    ip: '102.168.1.4',#}
-{#                    user: 'root',#}
-{#                    password: 'toor'#}
-{#                }],#}
                 hosts: '',
                 newBlockchain: {
                 	ordererNum: 1,
