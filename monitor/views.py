@@ -24,8 +24,30 @@ def info(request):
 def queryBlockByHash(request):
     if request.method == 'POST':
         block_hash = request.POST.get('hash')
-        print(block_hash)
+        # print(len(block_hash))
+        # hash_hex = []
+        # i = 0
+        # while i < (len(block_hash)-1):
+        #     if block_hash[i] == '\\':
+        #         if block_hash[i+1].isdigit():
+        #             num = int('' + block_hash[i+1] + block_hash[i+2] + block_hash[i+3], 8)
+        #             num = bytes([num])
+        #             hash_hex.append(num)
+        #             i += 4
+        #         else:
+        #             hash_hex.append(block_hash[i+1])
+        #             i += 2
+        #     else:
+        #         hash_hex.append(block_hash[i])
+        #         i += 1
+        # block = bytes(hash_hex)
+        # hash_hex = block.decode(encoding='utf-8')
+        # print(hash_hex)
+
+        # print(type(hash_hex[0]))
+        #hash_hex = '\004%}c0K\227\303\026\254Y\2734L\374\347\006\032\234\3548\'\322\250\013\002\266\240\007\231=\036'
         res = networking('blockHash' + block_hash)
+        #res = 'not foundend'
         if res == 'not foundend':
             res = '找不到相关信息'
         response = {'code': '200', 'msg': res}
@@ -104,6 +126,8 @@ def getInfo(request):
     if request.method == 'POST':
         res = networking('queryInfo')
         res = res[:-3]
+        res = res.replace('\n', '<br/>&emsp;')
+        print(res)
         response = {'code': '200', 'msg': res}
         return HttpResponse(json.dumps(response))
     response = {'code': '403', 'msg': 'forbidden'}
@@ -111,14 +135,17 @@ def getInfo(request):
 
 def getBlockchainInfo(request):
     if request.method == 'GET':
-        #res = networking('getBlockchainInfo')
-        # res = ''
+        res = networking('blockchainInfo')
+        res = res[:-3]
+        print(res)
+        info = json.loads(res)
+        print(info)
         blockchain_info = {
-            'ordererNum': 1,
-            'organizationNum': 2,
-            'peerNum': 2,
-            'caNum': 1,
-            'couchdbNum': 5
+            'ordererNum': info['orderer_num'],
+            'organizationNum': info['org_num'],
+            'peerNum': info['peer_num'],
+            'caNum': info['ca_num'],
+            'couchdbNum': info['couchdb_num']
         }
         response = {'code': '200', 'blockchain': blockchain_info}
         return HttpResponse(json.dumps(response))
@@ -151,8 +178,11 @@ def invokeChaincode(request):
         args = request.POST.get('args')
         print(args)
         res = networking('invokeArgsChaincode' + args)
+        res = res[-121:-50]
         response = {'code': '200', 'invokeResult': res}
         return HttpResponse(json.dumps(response))
+    response = {'code': '200', 'invokeResult': "invoke successful"}
+    return HttpResponse(json.dumps(response))
 
 def admin_docker(request):
     return render(request, 'admin_docker.html')

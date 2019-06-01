@@ -47,8 +47,8 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                queryArgs: '',
-                invokeArgs: '',
+                queryArgs: '{"Args":["query","a"]}',
+                invokeArgs: '{"Args":["invoke","a","b","10"]}',
                 operateResult: ''
             },
             methods:{
@@ -98,7 +98,7 @@
                             self.operateResult = '调用失败'
                         }
                     });
-                    self.invokeArgs = ''
+{#                    self.invokeArgs = ''#}
                 }
             }
         })
